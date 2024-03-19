@@ -1,4 +1,4 @@
-from src.Model.singleton import SingletonMeta
+from Model.Patterns.singleton import SingletonMeta
 from PyQt5.QtWidgets import QMainWindow, QLabel, QWidget
 
 
