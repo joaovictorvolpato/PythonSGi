@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from Patterns.observer import Observed
 from typing import Any
+import numpy as np
 
 from PyQt5 import QtCore
 
@@ -15,6 +16,10 @@ class Drawable(ABC):
 
     @abstractmethod
     def transformToView(self):
+        pass
+
+    @abstractmethod
+    def transform(self, matrix:np.matrix):
         pass
 
     @property
