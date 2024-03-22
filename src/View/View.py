@@ -1,11 +1,14 @@
+
 from PyQt5.QtWidgets import (
      QMainWindow
 )
 from src.View.main_ui import Ui_Dialog
+from src.Controllers.Controller import Controller
 
 class View(QMainWindow, Ui_Dialog):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.__controller = Controller()
         self.setupUi(self)
         self.connectSignalsSlots()
 

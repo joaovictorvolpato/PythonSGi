@@ -1,13 +1,13 @@
-from Model.Drawable import Drawable
+from src.Model.Drawable import Drawable
 from PyQt5 import QtCore
-from Patterns.observer import Observed
+from src.Model.Patterns.observer import Observed
+import numpy as np
 
-class Point(Drawable,Observed):
+class Point(Drawable):
     def __init__(self, x:int, y:int, name:str = None, controller:str = None) -> None:
         super().__init__(name)
         self.__x = x
         self.__y = y
-        self.attach(controller)
 
     @property
     def x(self):
@@ -27,6 +27,9 @@ class Point(Drawable,Observed):
 
     def draw(self):
         pass
+
+    def transform(self, matrix: np.matrix):
+        return super().transform(matrix)
 
     def transformToView(self):
         pass

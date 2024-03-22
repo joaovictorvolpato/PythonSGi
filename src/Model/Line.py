@@ -1,7 +1,8 @@
-from Drawable import Drawable
-from Point import Point
+from src.Model.Drawable import Drawable
+from src.Model.Point import Point
+import numpy as np
 
-from Patterns.observer import Observed
+from src.Model.Patterns.observer import Observed
 
 class Line(Drawable, Observed):
     def __init__(self, start:Point, end:Point, name:str = None, controller:str = None) -> None:
@@ -29,5 +30,8 @@ class Line(Drawable, Observed):
     def draw(self):
         pass
 
+    def transform(self, matrix: np.matrix):
+        return super().transform(matrix)
+
     def transformToView(self):
-        pass    
+        pass 
