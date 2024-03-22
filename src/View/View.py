@@ -2,6 +2,10 @@
 from PyQt5.QtWidgets import (
      QMainWindow
 )
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
 from src.View.main_ui import Ui_Dialog
 from src.Controllers.Controller import Controller
 
@@ -40,6 +44,7 @@ class View(QMainWindow, Ui_Dialog):
     def changeObjectType(self, index):
         # Implemente a lógica para mudar o tipo de objeto
         print('changeObjectType')
+
     def zoomIn(self):
         # Implemente a lógica para dar zoom in
         print('zoomIn')

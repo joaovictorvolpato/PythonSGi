@@ -11,6 +11,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QDialog
 
+from src.Model.Viewport import Viewport
+
 class Ui_Dialog(QDialog):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -39,10 +41,12 @@ class Ui_Dialog(QDialog):
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(50, 310, 91, 20))
         self.label_2.setObjectName("label_2")
-        self.ViewPort = QtWidgets.QGraphicsView(Dialog)
+        self.ViewPort = Viewport(Dialog)
         self.ViewPort.setGeometry(QtCore.QRect(225, 21, 471, 401))
         self.ViewPort.setMouseTracking(True)
         self.ViewPort.setObjectName("ViewPort")
+        self.ViewPort.setAttribute(QtCore.Qt.WA_StyledBackground, True)
+        self.ViewPort.setStyleSheet("background-color: #fff")
         self.widget = QtWidgets.QWidget(Dialog)
         self.widget.setGeometry(QtCore.QRect(10, 180, 201, 118))
         self.widget.setObjectName("widget")
