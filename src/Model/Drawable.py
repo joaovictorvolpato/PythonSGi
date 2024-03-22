@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Patterns.observer import Observed
+from src.Model.Patterns.observer import Observed
 from typing import Any
 import numpy as np
 

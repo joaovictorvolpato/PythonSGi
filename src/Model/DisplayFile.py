@@ -1,6 +1,6 @@
-from Window import Window
-from Point import Point
-from Line import Line
+from src.Model.Window import Window
+from src.Model.Point import Point
+from src.Model.Line import Line
 
 from typing import List
 
@@ -12,8 +12,6 @@ class DisplayFile:
         self.__wireframes = []
         self.__curves = []
         self.__buffer = None
-
-        self.__window = Window()
 
     @property
     def points(self):
