@@ -4,7 +4,7 @@ from random import randrange
 from typing import List
 
 
-class Observed(ABC):
+class Observed():
     """
     The Subject interface declares a set of methods for managing subscribers.
     """
@@ -42,11 +42,11 @@ class Observed(ABC):
         Notify all observers about an event.
         """
         for observer in self._observers:
-            observer.update(self)
+            observer.update()
 
 
 
-class Observer(ABC):
+class Observer():
     """
     The Observer interface declares the update method, used by subjects.
     """

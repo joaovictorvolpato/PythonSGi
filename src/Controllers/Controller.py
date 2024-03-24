@@ -7,8 +7,12 @@ class Controller(Observer):
     def __init__(self):
         self.__display_file = DisplayFile()
         self.__window = Window()
-        self.__view_port = Viewport()
+        self.__view_port = None
         self.__selected_object = "Point"
+
+    def attach_viewport(self, view_port: Viewport):
+        print("Controller viewport attached to controller")
+        self.__view_port = view_port
 
     @property
     def display_file(self):
@@ -31,7 +35,7 @@ class Controller(Observer):
         self.__selected_object = selected_object
 
     def update(self):
-        print("Controller updated, draw {self.__selected_object} at {self.__view_port.clicked_x}, {self.__view_port.clicked_y}")
+        print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))
         self.__view_port.update()
     
     def navigate(self, direction: str):

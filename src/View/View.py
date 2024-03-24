@@ -14,6 +14,8 @@ class View(QMainWindow, Ui_Dialog):
         super().__init__(parent)
         self.__controller = Controller()
         self.setupUi(self)
+        self.__controller.attach_viewport(self.ViewPort)
+        self.attach_controllerUI(self.__controller)
         self.connectSignalsSlots()
 
     def connectSignalsSlots(self):
@@ -43,6 +45,13 @@ class View(QMainWindow, Ui_Dialog):
 
     def changeObjectType(self, index):
         # Implemente a lógica para mudar o tipo de objeto
+        switcher = {
+            0: "Point",
+            1: "Line",
+            2: "Wireframe"
+        }
+        
+        self.__controller.selected_object = switcher[index]
         print('changeObjectType')
         print(index)
 

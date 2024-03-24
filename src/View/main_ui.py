@@ -93,3 +93,6 @@ class Ui_Dialog(QDialog):
         self.comboBox.setItemText(2, _translate("Dialog", "Wireframe"))
         self.pushButton.setText(_translate("Dialog", "Zoom In"))
         self.pushButton_2.setText(_translate("Dialog", "Zoom Out"))
+    
+    def attach_controllerUI(self, controller):
+        self.ViewPort.attach_controller(controller)
