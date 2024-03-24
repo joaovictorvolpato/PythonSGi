@@ -1,6 +1,5 @@
-from Model.Window import Window
-
-import consts
+from src.Model.Window import Window
+import src.Model.Utils.consts as consts
 
 
 # transforms the positions in the window to a Viewport usable

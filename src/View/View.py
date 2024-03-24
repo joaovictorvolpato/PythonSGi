@@ -44,6 +44,7 @@ class View(QMainWindow, Ui_Dialog):
     def changeObjectType(self, index):
         # Implemente a lógica para mudar o tipo de objeto
         print('changeObjectType')
+        print(index)
 
     def zoomIn(self):
         # Implemente a lógica para dar zoom in

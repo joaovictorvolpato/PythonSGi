@@ -1,6 +1,7 @@
 from src.Model.Drawable import Drawable
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 from src.Model.Patterns.observer import Observed
+from src.Model.Utils.ViewPortTransform import viewportTransformation
 import numpy as np
 
 class Point(Drawable):
@@ -25,8 +26,11 @@ class Point(Drawable):
     def y(self, y:int):
         self.__y = y
 
-    def draw(self):
-        pass
+    def draw(self, painter: QtGui.QPainter) -> None:
+        x, y = viewportTransformation(
+            self.getNormalX(), self.getNormalY(), self.__window
+        )
+        painter.drawEllipse(x, y, 5, 5)
 
     def transform(self, matrix: np.matrix):
         return super().transform(matrix)
