@@ -26,6 +26,8 @@ class View(QMainWindow, Ui_Dialog):
         self.comboBox.currentIndexChanged.connect(self.changeObjectType)
         self.pushButton.clicked.connect(self.zoomIn)
         self.pushButton_2.clicked.connect(self.zoomOut)
+        self.deleteButton.clicked.connect(self.deleteObject)
+        self.confirmButton.clicked.connect(self.confirmObject)
 
     def moveUp(self):
         # Implemente a lógica para mover para cima
@@ -50,7 +52,7 @@ class View(QMainWindow, Ui_Dialog):
             1: "Line",
             2: "Wireframe"
         }
-        
+
         self.__controller.selected_object = switcher[index]
         print('changeObjectType')
         print(index)
@@ -62,3 +64,9 @@ class View(QMainWindow, Ui_Dialog):
     def zoomOut(self):
         # Implemente a lógica para dar zoom out
         print('zoomOut')
+
+    def deleteObject(self):
+        print('deleteObject')
+
+    def confirmObject(self):
+        print('confirmObject')
