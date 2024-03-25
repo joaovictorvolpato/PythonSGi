@@ -40,7 +40,7 @@ class DisplayFile(SingletonClass):
     def addToBuffer(self, objectType: str, buffer, windowP) -> None:
         print("Adding to buffer: ", objectType, buffer, windowP)
         if objectType == "POINT":
-            self.__buffer = Point(buffer, window=windowP)
+            self.__buffer = Point(buffer.x, buffer.y, window=windowP)
             self.registerObject("POINT", "Point", "black")
 
         if objectType == "LINE":
@@ -51,8 +51,6 @@ class DisplayFile(SingletonClass):
             else:
                 print("Creating new line")
                 self.__buffer = Line(buffer, window=windowP)
-                
-
     
     def registerObject(self, currentType: str, objectName: str, color) -> None:
         if currentType == "POINT":
