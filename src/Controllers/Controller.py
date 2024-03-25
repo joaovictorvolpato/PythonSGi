@@ -19,19 +19,19 @@ class Controller(Observer):
     @property
     def display_file(self):
         return self.__display_file
-    
+
     @property
     def window(self):
         return self.__window
-    
+
     @property
     def view_port(self):
         return self.__view_port
-    
+
     @property
     def selected_object(self):
         return self.__selected_object
-    
+
     @selected_object.setter
     def selected_object(self, selected_object: str):
         self.__selected_object = selected_object
@@ -71,8 +71,12 @@ class Controller(Observer):
                 self.window
             )
         self.__view_port.update()
-    
+
     def navigate(self, direction: str):
         self.__window.navigate(direction)
+        self.__view_port.update()
+
+    def zoom(self, direction: str):
+        self.__window.zoom(direction)
         self.__view_port.update()
 

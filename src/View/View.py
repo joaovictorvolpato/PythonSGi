@@ -19,31 +19,18 @@ class View(QMainWindow, Ui_Dialog):
         self.connectSignalsSlots()
 
     def connectSignalsSlots(self):
-        self.pushButton_3.clicked.connect(self.moveUp)
-        self.pushButton_4.clicked.connect(self.moveRight)
-        self.pushButton_5.clicked.connect(self.moveDown)
-        self.pushButton_6.clicked.connect(self.moveLeft)
+        self.pushButton_3.clicked.connect(lambda: self.navigate('UP'))
+        self.pushButton_4.clicked.connect(lambda: self.navigate('RIGHT'))
+        self.pushButton_5.clicked.connect(lambda: self.navigate('DOWN'))
+        self.pushButton_6.clicked.connect(lambda: self.navigate('LEFT'))
         self.comboBox.currentIndexChanged.connect(self.changeObjectType)
-        self.pushButton.clicked.connect(self.zoomIn)
-        self.pushButton_2.clicked.connect(self.zoomOut)
+        self.pushButton.clicked.connect(lambda: self.zoom('IN'))
+        self.pushButton_2.clicked.connect(lambda: self.zoom('OUT'))
         self.deleteButton.clicked.connect(self.deleteObject)
         self.confirmButton.clicked.connect(self.confirmObject)
 
-    def moveUp(self):
-        # Implemente a lógica para mover para cima
-        print('moveUp')
-
-    def moveRight(self):
-        # Implemente a lógica para mover para a direita
-        print('moveRight')
-
-    def moveDown(self):
-        # Implemente a lógica para mover para baixo
-        print('moveDown')
-
-    def moveLeft(self):
-        # Implemente a lógica para mover para a esquerda
-        print('moveLeft')
+    def navigate(self, direction: str):
+        self.__controller.navigate(direction)
 
     def changeObjectType(self, index):
         # Implemente a lógica para mudar o tipo de objeto
@@ -57,13 +44,8 @@ class View(QMainWindow, Ui_Dialog):
         print('changeObjectType')
         print(index)
 
-    def zoomIn(self):
-        # Implemente a lógica para dar zoom in
-        print('zoomIn')
-
-    def zoomOut(self):
-        # Implemente a lógica para dar zoom out
-        print('zoomOut')
+    def zoom(self, direction):
+        self.__controller.zoom(direction)
 
     def deleteObject(self):
         print('deleteObject')
