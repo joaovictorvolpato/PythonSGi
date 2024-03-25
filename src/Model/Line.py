@@ -1,15 +1,17 @@
 from src.Model.Drawable import Drawable
 from src.Model.Point import Point
+from PyQt5 import QtCore, QtGui, QtWidgets
+from src.Model.Utils.ViewPortTransform import viewportTransformation
 import numpy as np
 
 from src.Model.Patterns.observer import Observed
 
 class Line(Drawable, Observed):
-    def __init__(self, start:Point, end:Point, name:str = None, controller:str = None) -> None:
+    def __init__(self, start:Point, end:Point = None, name:str = None, window = None ) -> None:
         super().__init__(name)
         self.__start = start
         self.__end = end
-        self.attach(controller)
+        self.__window = window
 
     @property
     def start(self):
@@ -27,8 +29,19 @@ class Line(Drawable, Observed):
     def end(self, end:Point):
         self.__end = end
 
-    def draw(self):
-        pass
+    def draw(self, painter: QtGui.QPainter,)-> None:
+        start_point_x, start_point_y = viewportTransformation(
+                self.start.x, self.start.y, self.__window
+            )
+        end_point_x, end_point_y = viewportTransformation(
+                self.end.x, self.end.y, self.__window
+            )
+        
+        #print points before and after tranformation
+        print("BEFORE TRANSFORMING",self.start.x, self.start.y, self.end.x, self.end.y)
+        print("AFTER TRANSFORMING",start_point_x, start_point_y, end_point_x, end_point_y)
+
+        painter.drawLine(start_point_x, start_point_y, end_point_x, end_point_y)
 
     def transform(self, matrix: np.matrix):
         return super().transform(matrix)

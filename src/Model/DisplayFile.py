@@ -1,33 +1,27 @@
 from src.Model.Window import Window
 from src.Model.Point import Point
 from src.Model.Line import Line
+from src.Model.Drawable import Drawable
 
 from src.Model.Patterns.singleton import SingletonMeta
 
 from typing import List
 
 
-class DisplayFile(object):
-    """
-    The Singleton class can be implemented in different ways in Python. Some
-    possible methods include: base class, decorator, metaclass. We will use the
-    metaclass because it is best suited for this purpose.
-    """
 
-    _instances = {}
+class SingletonClass(object):
+  def __new__(cls):
+    if not hasattr(cls, 'instance'):
+      cls.instance = super(SingletonClass, cls).__new__(cls)
+    return cls.instance
 
-    def __call__(cls, *args, **kwargs):
-        """
-        Possible changes to the value of the `__init__` argument do not affect
-        the returned instance.
-        """
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
 
+class DisplayFile(SingletonClass):
     def __init__(self):
-        self.__points = List[Point]
-        self.__lines = List[Line]
+        print("DisplayFile created")
+        print(self)
+        self.__points = []
+        self.__lines = []
         self.__wireframes = []
         self.__buffer = None
 
@@ -43,9 +37,37 @@ class DisplayFile(object):
     def wireframes(self):
         return self.__wireframes
     
-    def addToBuffer(self, objectType: str, buffer) -> None:
+    def addToBuffer(self, objectType: str, buffer, windowP) -> None:
+        print("Adding to buffer: ", objectType, buffer, windowP)
+        if objectType == "POINT":
+            self.__buffer = Point(buffer, window=windowP)
+            self.registerObject("POINT", "Point", "black")
+
         if objectType == "LINE":
             if self.__buffer is not None:
-                self.__buffer.addPoint(buffer)
+                print("!!!!!!!!!!!!!!!!!Adding end point to line!!!!!!!!!!!!!")
+                self.__buffer.end  = buffer
+                self.registerObject("LINE", "Line", "black")
             else:
-                self.__buffer = Line(buffer, window=self.__window)
+                print("Creating new line")
+                self.__buffer = Line(buffer, window=windowP)
+                
+
+    
+    def registerObject(self, currentType: str, objectName: str, color) -> None:
+        if currentType == "POINT":
+            self.__points.append(self.__buffer)
+        elif currentType == "LINE":
+            print("Registering line: ", self.__buffer.start, self.__buffer.end)
+            self.__lines.append(self.__buffer)
+            print(self)
+        elif currentType == "WIREFRAME":
+            self.__wireframes.append(self.__buffer)
+
+        self.__buffer = None
+
+    def getObjects(self) -> List[Drawable]:
+        return self.__points + self.__lines + self.__wireframes
+    
+    def get_buffer(self):
+        return self.__buffer

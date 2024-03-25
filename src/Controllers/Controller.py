@@ -2,6 +2,8 @@ from src.Model.DisplayFile import DisplayFile
 from src.Model.Window import Window
 from src.Model.Viewport import Viewport
 from src.Model.Patterns.observer import Observer
+from src.Model.Utils.ViewPortTransform import transformToWorldCoordinates
+from src.Model.Point import Point
 
 class Controller(Observer):
     def __init__(self):
@@ -36,22 +38,41 @@ class Controller(Observer):
 
     def update(self):
         print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))
+        x, y = transformToWorldCoordinates(
+            self.__view_port.clicked_x, self.__view_port.clicked_y, self.__window
+        )
+
+        point = Point(x, y, self.window)
+
+        print("Point: ", point.x, point.y)
+
+        print("Selected object: ", self.selected_object)
+
+        print("called getObjects in controller  ", self.display_file.getObjects())
+
+        if self.selected_object == "Point":
+            self.display_file.addToBuffer(
+                "POINT",
+                point,
+                self.window
+            )
+
+        elif self.selected_object == "Line":
+            print("Adding line to buffer")
+            self.display_file.addToBuffer(
+                "LINE",
+                point,
+                self.window
+            )
+        elif self.selected_object == "Wireframe":
+            self.display_file.addToBuffer(
+                "WIREFRAME",
+                point,
+                self.window
+            )
         self.__view_port.update()
     
     def navigate(self, direction: str):
         self.__window.navigate(direction)
         self.__view_port.update()
 
-    def handleConfirmClick(self, name: str) -> None:
-        if name == "":
-            self.openFileModal()
-            return
-
-        dict = self.__display_file.tryRegistering(
-            self.viewport.currentSelectedType, name, self.__currentColor
-        )
-        self.logField.addItem(dict["mensagem"])
-        if dict["status"] == True:
-            self.objectsList.addItem(name)
-            self.objectNameInput.clear()
-        self.viewport.update()
