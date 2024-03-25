@@ -9,7 +9,7 @@ class Drawable(ABC):
     def __init__(self, name:str = None) -> None:
         self.__name = name
         self.__color = QtCore.Qt.black
-        
+
     @abstractmethod
     def draw(self):
         pass
@@ -23,13 +23,13 @@ class Drawable(ABC):
         pass
 
     @property
-    def name(self, name:str):
-        self.__name = name
-
-    @name.setter
     def name(self):
         return self.__name
-    
+
+    @name.setter
+    def name(self, new_name):
+        self.__name = new_name
+
     @property
     def color(self, color:QtCore.Qt.GlobalColor):
         self.__color = color

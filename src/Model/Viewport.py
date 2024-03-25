@@ -8,7 +8,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         self.__currentColor = QtCore.Qt.red
         self.__displayFile = DisplayFile()
         self.__clicked_x = 0
-        self.__clicked_y = 0 
+        self.__clicked_y = 0
 
     def mousePressEvent(self, event):
         #print("Current type: ", self.currentSelectedType)
@@ -18,7 +18,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         print("Clicked at: ", self.__clicked_x, self.__clicked_y)
         self.notify()
         #self.update()
-        
+
     def paintEvent(self, ev):
         print("Painting viewport")
         qp = QtGui.QPainter(self)
@@ -30,7 +30,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setBrush(brush)
 
         print("DISPLAY FILE ADDR:", self.displayFile)
-        
+
         for obj in self.displayFile.getObjects():
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
@@ -46,11 +46,11 @@ class Viewport(QtWidgets.QWidget, Observed):
     @property
     def clicked_x(self):
         return self.__clicked_x
-    
+
     @property
     def clicked_y(self):
         return self.__clicked_y
-    
+
     @property
     def displayFile(self):
         return self.__displayFile

@@ -80,3 +80,15 @@ class Controller(Observer):
         self.__window.zoom(direction)
         self.__view_port.update()
 
+    def confirmObject(self, name: str):
+        dict = self.__display_file.tryRegistering(
+            self.selected_object, name
+        )
+
+        return dict
+
+    def deleteObject(self, name: str):
+        self.__display_file.deleteObject(name)
+        self.__view_port.update()
+
+
