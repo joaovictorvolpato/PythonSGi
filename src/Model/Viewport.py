@@ -30,6 +30,8 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setBrush(brush)
 
         print("DISPLAY FILE ADDR:", self.displayFile)
+        
+        print(self.displayFile.getObjects())
 
         for obj in self.displayFile.getObjects():
             if obj is self.displayFile.get_buffer():

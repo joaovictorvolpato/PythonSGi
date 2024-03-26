@@ -1,5 +1,7 @@
 from PyQt5 import QtGui
 import numpy as np
+from PyQt5.QtCore import QPoint
+
 
 from src.Model.Drawable import Drawable
 from src.Model.Line import Line
@@ -42,13 +44,12 @@ class Wireframe(Drawable):
         self.__is_filled = new_status
 
     def draw(self, painter: QtGui.QPainter):
-        if self.__is_filled:
-            points = []
-            for point in self.__pointsList:
-                x, y = viewportTransformation(point.getNormalX(), point.getNormalY(), self.__window)
-                points.append(QtGui.QPoint(x, y))
-            # painter.setPen(self.__color)
-            painter.drawPolygon(points)
+        points = []
+        for point in self.__pointsList:
+            x, y = viewportTransformation(point.x, point.y, self.__window)
+            points.append(QPoint(x, y))
+        # painter.setPen(self.__color)
+        painter.drawPolygon(points)
 
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
@@ -91,3 +92,9 @@ class Wireframe(Drawable):
 
     def fill(self):
         self.__is_filled = not self.__is_filled
+
+    def transformToView(self):
+        pass
+
+    def transform(self, matrix: np.matrix):
+        return super().transform(matrix)

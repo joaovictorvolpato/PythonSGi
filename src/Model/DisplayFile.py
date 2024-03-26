@@ -59,8 +59,7 @@ class DisplayFile(SingletonClass):
 
         if objectType == "WIREFRAME":
             if self.__buffer is not None:
-                self.__buffer.points.append(buffer)
-                self.__wireframes.append(self.__buffer)
+                self.__buffer.addPoint(buffer)
             else:
                 self.__buffer = Wireframe(buffer, window=windowP)
 
@@ -73,8 +72,7 @@ class DisplayFile(SingletonClass):
             print("Registering line: ", self.__buffer.start, self.__buffer.end)
             self.__lines.append(self.__buffer)
             self.__buffer = None
-
-        elif currentType == "WIREFRAME":
+        elif isinstance(self.__buffer,Wireframe):
             self.__wireframes.append(self.__buffer)
 
     def deleteObject(self, name: str) -> None:
@@ -99,7 +97,7 @@ class DisplayFile(SingletonClass):
 
     def get_buffer(self):
         return self.__buffer
-    
+
     def confirmLastObject(self) -> None:
         self.__confirmed_last_one = True
 
