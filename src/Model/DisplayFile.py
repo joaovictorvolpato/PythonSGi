@@ -72,8 +72,7 @@ class DisplayFile(SingletonClass):
             print("Registering line: ", self.__buffer.start, self.__buffer.end)
             self.__lines.append(self.__buffer)
             self.__buffer = None
-
-        elif currentType == "WIREFRAME":
+        elif isinstance(self.__buffer,Wireframe):
             self.__wireframes.append(self.__buffer)
 
     def deleteObject(self, name: str) -> None:
