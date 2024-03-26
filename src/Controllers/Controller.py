@@ -11,6 +11,7 @@ class Controller(Observer):
         self.__window = Window()
         self.__view_port = None
         self.__selected_object = "Point"
+        self.__object_name = ""
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
@@ -36,6 +37,14 @@ class Controller(Observer):
     def selected_object(self, selected_object: str):
         self.__selected_object = selected_object
 
+    @property
+    def object_name(self):
+        return self.__object_name
+
+    @object_name.setter
+    def object_name(self, object_name: str):
+        self.__object_name = object_name
+
     def update(self):
         print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))
         x, y = transformToWorldCoordinates(
@@ -54,7 +63,8 @@ class Controller(Observer):
             self.display_file.addToBuffer(
                 "POINT",
                 point,
-                self.window
+                self.window,
+                self.object_name
             )
 
         elif self.selected_object == "Line":
@@ -62,13 +72,15 @@ class Controller(Observer):
             self.display_file.addToBuffer(
                 "LINE",
                 point,
-                self.window
+                self.window,
+                self.object_name
             )
         elif self.selected_object == "Wireframe":
             self.display_file.addToBuffer(
                 "WIREFRAME",
                 point,
-                self.window
+                self.window,
+                self.object_name
             )
         self.__view_port.update()
 
@@ -80,9 +92,9 @@ class Controller(Observer):
         self.__window.zoom(direction)
         self.__view_port.update()
 
-    def confirmObject(self, name: str):
+    def createObject(self):
         dict = self.__display_file.tryRegistering(
-            self.selected_object, name
+            self.selected_object, self.object_name
         )
 
         return dict
