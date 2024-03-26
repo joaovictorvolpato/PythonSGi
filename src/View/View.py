@@ -62,4 +62,5 @@ class View(QMainWindow, Ui_Dialog):
             self.lineEdit.clear()
 
     def setObjectName(self, name: str):
+        print(name)
         self.__controller.object_name = name

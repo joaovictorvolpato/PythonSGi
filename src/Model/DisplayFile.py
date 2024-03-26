@@ -25,6 +25,7 @@ class DisplayFile(SingletonClass):
         self.__lines = []
         self.__wireframes = []
         self.__buffer = None
+        self.__confirmed_last_one = True
 
     @property
     def points(self):
@@ -42,13 +43,16 @@ class DisplayFile(SingletonClass):
         print("Adding to buffer: ", objectType, buffer, windowP)
         if objectType == "POINT":
             self.__buffer = Point(buffer.x, buffer.y, window=windowP)
-            self.registerObject("POINT", objectName, "black")
+            print(self.__confirmed_last_one)
+            if self.__confirmed_last_one:
+                #self.registerObject("POINT", objectName, "black")
+                self.__confirmed_last_one = False
 
         if objectType == "LINE":
             if self.__buffer is not None:
                 print("!!!!!!!!!!!!!!!!!Adding end point to line!!!!!!!!!!!!!")
                 self.__buffer.end  = buffer
-                self.registerObject("LINE", objectName, "black")
+                #self.registerObject("LINE", objectName, "black")
             else:
                 print("Creating new line")
                 self.__buffer = Line(buffer, window=windowP)
@@ -61,14 +65,15 @@ class DisplayFile(SingletonClass):
                 self.__buffer = Wireframe(buffer, window=windowP)
 
     def registerObject(self, currentType: str, objectName: str, color) -> None:
-        self.__buffer.name = objectName
 
-        if currentType == "POINT":
+        if isinstance(self.__buffer,Point):
             self.__points.append(self.__buffer)
-        elif currentType == "LINE":
-            #print("Registering line: ", self.__buffer.start, self.__buffer.end)
+            self.__buffer = None
+        elif isinstance(self.__buffer,Line):
+            print("Registering line: ", self.__buffer.start, self.__buffer.end)
             self.__lines.append(self.__buffer)
-            print(self)
+            self.__buffer = None
+
         elif currentType == "WIREFRAME":
             self.__wireframes.append(self.__buffer)
 
@@ -94,10 +99,20 @@ class DisplayFile(SingletonClass):
 
     def get_buffer(self):
         return self.__buffer
+    
+    def confirmLastObject(self) -> None:
+        self.__confirmed_last_one = True
+
+    def setObjectName(self, objectName: str, color) -> None:
+        if self.__buffer is None:
+            return
+
+        self.__buffer.name = objectName
+        self.registerObject(self.__buffer, objectName, color)
 
     def tryRegistering(self, currentType: str, objectName: str) -> str:
         if self.__buffer is None:
             return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
 
-        self.registerObject(currentType, objectName, "black")
+        self.setObjectName(objectName, "black")
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}

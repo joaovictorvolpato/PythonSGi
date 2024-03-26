@@ -93,9 +93,14 @@ class Controller(Observer):
         self.__view_port.update()
 
     def createObject(self):
+        if self.selected_object == "Point":
+            self.__display_file.confirmLastObject()
+
         dict = self.__display_file.tryRegistering(
             self.selected_object, self.object_name
         )
+
+        self.view_port.update()
 
         return dict
 
