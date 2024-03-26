@@ -27,7 +27,8 @@ class View(QMainWindow, Ui_Dialog):
         self.pushButton.clicked.connect(lambda: self.zoom('IN'))
         self.pushButton_2.clicked.connect(lambda: self.zoom('OUT'))
         self.deleteButton.clicked.connect(self.deleteObject)
-        self.confirmButton.clicked.connect(self.confirmObject)
+        self.confirmButton.clicked.connect(lambda: self.confirmObject(self.lineEdit.text()))
+        self.lineEdit.textChanged.connect(lambda: self.setObjectName(self.lineEdit.text()))
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -47,8 +48,19 @@ class View(QMainWindow, Ui_Dialog):
     def zoom(self, direction):
         self.__controller.zoom(direction)
 
-    def deleteObject(self):
-        print('deleteObject')
+    def deleteObject(self) -> None:
+        list_item = self.listWidget.currentRow()
+        if list_item is not None:
+            object_name = self.listWidget.item(list_item).text()
+            self.__controller.deleteObject(object_name)
+            self.listWidget.takeItem(list_item)
 
-    def confirmObject(self):
-        print('confirmObject')
+    def confirmObject(self, name: str):
+        dict = self.__controller.createObject()
+        if dict["status"] == True:
+            self.listWidget.addItem(name)
+            self.lineEdit.clear()
+
+    def setObjectName(self, name: str):
+        print(name)
+        self.__controller.object_name = name
