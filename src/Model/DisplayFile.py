@@ -74,6 +74,7 @@ class DisplayFile(SingletonClass):
             self.__buffer = None
         elif isinstance(self.__buffer,Wireframe):
             self.__wireframes.append(self.__buffer)
+            self.__buffer = None
 
     def deleteObject(self, name: str) -> None:
         for i, point in enumerate(self.__points):
