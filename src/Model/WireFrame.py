@@ -1,7 +1,7 @@
 from PyQt5 import QtGui
 import numpy as np
 from PyQt5.QtCore import QPoint
-
+from PyQt5 import QtCore
 
 from src.Model.Drawable import Drawable
 from src.Model.Line import Line
@@ -11,9 +11,9 @@ from src.Model.Utils.ViewPortTransform import viewportTransformation
 
 class Wireframe(Drawable):
     def __init__(
-        self, pointA: Point, name: str = None, window=None, is_filled: bool = False
+        self, pointA: Point, name: str = None, window=None, is_filled: bool = False, color:QtCore.Qt.GlobalColor = None
     ):
-        super().__init__(name)
+        super().__init__(name,color)
         self.__firstPoint = pointA
         self.__pointsList = [pointA]
         self.__window = window

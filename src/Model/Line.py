@@ -7,8 +7,8 @@ import numpy as np
 from src.Model.Patterns.observer import Observed
 
 class Line(Drawable, Observed):
-    def __init__(self, start:Point, end:Point = None, name:str = None, window = None ) -> None:
-        super().__init__(name)
+    def __init__(self, start:Point, end:Point = None, name:str = None, window = None, color:QtCore.Qt.GlobalColor = None) -> None:
+        super().__init__(name, color)
         self.__start = start
         self.__end = end
         self.__window = window

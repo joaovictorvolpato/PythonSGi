@@ -16,7 +16,7 @@ class Controller(Observer):
         self.__view_port = None
         self.__selected_object = "Point"
         self.__object_name = ""
-        self.__object_color = QtCore.Qt.black
+        self.__object_color = None
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
@@ -56,6 +56,7 @@ class Controller(Observer):
 
     @object_color.setter
     def object_color(self, object_color: str):
+        print("Setting object color to ", object_color)
         self.__object_color = object_color
 
     def update(self):
@@ -64,7 +65,7 @@ class Controller(Observer):
             self.__view_port.clicked_x, self.__view_port.clicked_y, self.__window
         )
 
-        point = Point(x, y, self.window)
+        point = Point(x, y, self.window, self.object_color)
 
         print("Point: ", point.x, point.y)
 
@@ -77,7 +78,7 @@ class Controller(Observer):
                 "POINT",
                 point,
                 self.window,
-                self.object_name
+                self.object_color
             )
 
         elif self.selected_object == "Line":
@@ -86,14 +87,14 @@ class Controller(Observer):
                 "LINE",
                 point,
                 self.window,
-                self.object_name
+                self.object_color
             )
         elif self.selected_object == "Wireframe":
             self.display_file.addToBuffer(
                 "WIREFRAME",
                 point,
                 self.window,
-                self.object_name
+                self.object_color
             )
         self.__view_port.update()
 

@@ -6,8 +6,8 @@ from src.Model.Utils.ViewPortTransform import viewportTransformation
 import numpy as np
 
 class Point(Drawable):
-    def __init__(self, x:int, y:int, name:str = None, window:Window = None) -> None:
-        super().__init__(name)
+    def __init__(self, x:int, y:int, name:str = None, window:Window = None, color:QtCore.Qt.GlobalColor = None) -> None:
+        super().__init__(name, color)
         self.__x = x
         self.__y = y
         self.__window = window

@@ -39,10 +39,10 @@ class DisplayFile(SingletonClass):
     def wireframes(self):
         return self.__wireframes
 
-    def addToBuffer(self, objectType: str, buffer, windowP, objectName: str) -> None:
+    def addToBuffer(self, objectType: str, buffer, windowP, object_color: str) -> None:
         print("Adding to buffer: ", objectType, buffer, windowP)
         if objectType == "POINT":
-            self.__buffer = Point(buffer.x, buffer.y, window=windowP)
+            self.__buffer = Point(buffer.x, buffer.y, window=windowP, color = object_color)
             print(self.__confirmed_last_one)
             if self.__confirmed_last_one:
                 #self.registerObject("POINT", objectName, "black")
@@ -55,15 +55,16 @@ class DisplayFile(SingletonClass):
                 #self.registerObject("LINE", objectName, "black")
             else:
                 print("Creating new line")
-                self.__buffer = Line(buffer, window=windowP)
+                self.__buffer = Line(buffer, window=windowP, color = object_color)
 
         if objectType == "WIREFRAME":
             if self.__buffer is not None:
                 self.__buffer.addPoint(buffer)
             else:
-                self.__buffer = Wireframe(buffer, window=windowP)
+                print(object_color)
+                self.__buffer = Wireframe(buffer, window=windowP, color = object_color)
 
-    def registerObject(self, currentType: str, objectName: str, color) -> None:
+    def registerObject(self, currentType: str, objectName: str) -> None:
 
         if isinstance(self.__buffer,Point):
             self.__points.append(self.__buffer)
@@ -102,18 +103,18 @@ class DisplayFile(SingletonClass):
     def confirmLastObject(self) -> None:
         self.__confirmed_last_one = True
 
-    def setObjectName(self, objectName: str, color) -> None:
+    def setObjectName(self, objectName: str) -> None:
         if self.__buffer is None:
             return
 
         self.__buffer.name = objectName
-        self.registerObject(self.__buffer, objectName, color)
+        self.registerObject(self.__buffer, objectName)
 
     def tryRegistering(self, currentType: str, objectName: str) -> str:
         if self.__buffer is None:
             return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
 
-        self.setObjectName(objectName, "black")
+        self.setObjectName(objectName)
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
     def getObjectByName(self, name: str):

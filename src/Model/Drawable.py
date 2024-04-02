@@ -6,9 +6,9 @@ import numpy as np
 from PyQt5 import QtCore
 
 class Drawable(ABC):
-    def __init__(self, name:str = None) -> None:
+    def __init__(self, name:str = None, color:QtCore.Qt.GlobalColor = None ) -> None:
         self.__name = name
-        self.__color = QtCore.Qt.black
+        self.__color = color
 
     @abstractmethod
     def draw(self):
@@ -35,10 +35,12 @@ class Drawable(ABC):
         self.__name = new_name
 
     @property
+    def color(self):
+        return self.__color
+
+    @color.setter
     def color(self, color:QtCore.Qt.GlobalColor):
         self.__color = color
 
-    @color.setter
-    def color(self):
-        return self.__color
+
     

@@ -38,9 +38,10 @@ class Viewport(QtWidgets.QWidget, Observed):
                 pen = QtGui.QPen(self.__currentColor, 3)
                 qp.setPen(pen)
             else:
-                pen = QtGui.QPen(QtCore.Qt.black, 3)
+                color = obj.color
+                pen = QtGui.QPen(color, 3)
                 qp.setPen(pen)
-                brush = QtGui.QBrush(QtCore.Qt.black)
+                brush = QtGui.QBrush(color)
                 qp.setBrush(brush)
             print("Drawing object")
             obj.draw(qp)
