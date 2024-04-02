@@ -74,6 +74,7 @@ class View(QMainWindow, Ui_Dialog):
             self.window,
             currentObject=self.__controller.display_file.getObjectByName(objectName),
             updateObject=self.__controller.update(),
+            controller = self.__controller,
             closeModal=self.window.close,
         )
         self.window.show()
