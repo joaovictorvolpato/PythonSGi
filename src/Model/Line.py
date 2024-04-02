@@ -43,7 +43,7 @@ class Line(Drawable, Observed):
 
         painter.drawLine(start_point_x, start_point_y, end_point_x, end_point_y)
 
-    def transform(self, matrix: np.ndarrar):
+    def transform(self, matrix: np.ndarray):
         start = np.dot(np.array([self.__start.x, self.__start.y, 1]), matrix)
         end = np.dot(np.array([self.__end.x, self.__end.y, 1]), matrix)
         self.__start.x = start.item(0)

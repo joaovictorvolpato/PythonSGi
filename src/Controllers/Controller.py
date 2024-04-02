@@ -111,6 +111,7 @@ class Controller(Observer):
         self.__view_port.update()
 
     def transformObject(self, name: str, transformation: dict):
+        print("Transforming object: ", name, transformation)
         if transformation["type"] == "scaling":
             object_to_transform = self.__display_file.getObjectByName(name)
             center = object_to_transform.getCenter()
@@ -138,6 +139,38 @@ class Controller(Observer):
                 )
                 matrix3 = self.__matrix_operations.build_translation_matrix(
                     center.x, center.y
+                )
+                matrix = self.__matrix_operations.matrix_composition(
+                    [matrix1, matrix2, matrix3]
+                )
+            elif transformation["center"] == "origin":
+                matrix = self.__matrix_operations.build_rotation_matrix(
+                    transformation["angle"]
+                )
+                center = self.__window.getOrigin()
+                matrix1 = self.__matrix_operations.build_translation_matrix(
+                    -center.x, -center.y
+                )
+                matrix2 = self.__matrix_operations.build_rotation_matrix(
+                    transformation["angle"]
+                )
+                matrix3 = self.__matrix_operations.build_translation_matrix(
+                    center.x, center.y
+                )
+                matrix = self.__matrix_operations.matrix_composition(
+                    [matrix1, matrix2, matrix3]
+                )
+            elif transformation["center"] == "point":
+                x = transformation["pointx"]
+                y = transformation["pointy"]
+                matrix1 = self.__matrix_operations.build_translation_matrix(
+                    -x, -y
+                )
+                matrix2 = self.__matrix_operations.build_rotation_matrix(
+                    transformation["angle"]
+                )
+                matrix3 = self.__matrix_operations.build_translation_matrix(
+                    x, y
                 )
                 matrix = self.__matrix_operations.matrix_composition(
                     [matrix1, matrix2, matrix3]
