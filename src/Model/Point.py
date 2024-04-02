@@ -39,5 +39,8 @@ class Point(Drawable):
         self.__x = mult.item(0)
         self.__y = mult.item(1)
 
+    def getCenter(self):
+        return self
+
     def transformToView(self):
         pass

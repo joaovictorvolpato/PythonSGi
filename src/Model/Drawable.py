@@ -22,6 +22,10 @@ class Drawable(ABC):
     def transform(self, matrix:np.matrix):
         pass
 
+    @abstractmethod
+    def getCenter(self):
+        pass
+
     @property
     def name(self):
         return self.__name
@@ -37,3 +41,4 @@ class Drawable(ABC):
     @color.setter
     def color(self):
         return self.__color
+    

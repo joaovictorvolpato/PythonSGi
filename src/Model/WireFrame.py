@@ -90,6 +90,9 @@ class Wireframe(Drawable):
     def transformToView(self):
         pass
 
+    def getCenter(self):
+        return self.calculateGeometricCenter()
+
     def transform(self, matrix: np.ndarray):
         for point in self.__pointsList:
             point.transform(matrix)

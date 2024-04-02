@@ -112,13 +112,36 @@ class Controller(Observer):
 
     def transformObject(self, name: str, transformation: dict):
         if transformation["type"] == "scaling":
-            matrix = self.__matrix_operations.build_scaling_matrix(
+            object_to_transform = self.__display_file.getObjectByName(name)
+            center = object_to_transform.getCenter()
+            matrix1 = self.__matrix_operations.build_translation_matrix(
+                -center.x, -center.y
+            )
+            matrix2 = self.__matrix_operations.build_scaling_matrix(
                 transformation["sx"], transformation["sy"]
             )
-        if transformation["type"] == "rotation":
-            matrix = self.__matrix_operations.build_rotation_matrix(
-                transformation["angle"]
+            matrix3 = self.__matrix_operations.build_translation_matrix(
+                center.x, center.y
             )
+            matrix = self.__matrix_operations.matrix_composition(
+                [matrix1, matrix2, matrix3]
+            )               
+        if transformation["type"] == "rotation":
+            if transformation["center"] == "object":
+                object_to_transform = self.__display_file.getObjectByName(name)
+                center = object_to_transform.getCenter()
+                matrix1 = self.__matrix_operations.build_translation_matrix(
+                    -center.x, -center.y
+                )
+                matrix2 = self.__matrix_operations.build_rotation_matrix(
+                    transformation["angle"]
+                )
+                matrix3 = self.__matrix_operations.build_translation_matrix(
+                    center.x, center.y
+                )
+                matrix = self.__matrix_operations.matrix_composition(
+                    [matrix1, matrix2, matrix3]
+                )
         if transformation["type"] == "translation":    
             matrix = self.__matrix_operations.build_translation_matrix(
                 transformation["tx"], transformation["ty"]
