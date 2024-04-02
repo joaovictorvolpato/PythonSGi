@@ -16,7 +16,7 @@ class Controller(Observer):
         self.__view_port = None
         self.__selected_object = "Point"
         self.__object_name = ""
-        self.__object_color = QtCore.Qt.black;
+        self.__object_color = QtCore.Qt.black
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")

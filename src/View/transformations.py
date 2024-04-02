@@ -201,8 +201,8 @@ class Transformations(object):
             transformData['center'] = 'object'
         elif self.radioAnyPoint.isChecked():
             transformData['center'] = 'point'
-            transformData['center_x'] = self.lineEdit_8.text()
-            transformData['center_y'] = self.lineEdit_9.text()
+            transformData['pointx'] = self.lineEdit_8.text()
+            transformData['pointy'] = self.lineEdit_9.text()
 
         self.controller.transformObject(self.currentObject.name, transformData)
         self.closeModal()
