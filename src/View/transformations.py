@@ -36,15 +36,15 @@ class Transformations(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.translationCheckbox = QtWidgets.QCheckBox(self.widget)
-        self.translationCheckbox.setObjectName("translationCheckbox")
-        self.verticalLayout.addWidget(self.translationCheckbox)
-        self.scalingCheckbox = QtWidgets.QCheckBox(self.widget)
-        self.scalingCheckbox.setObjectName("scalingCheckbox")
-        self.verticalLayout.addWidget(self.scalingCheckbox)
-        self.rotationCheckbox = QtWidgets.QCheckBox(self.widget)
-        self.rotationCheckbox.setObjectName("rotationCheckbox")
-        self.verticalLayout.addWidget(self.rotationCheckbox)
+        self.translationRadioButton = QtWidgets.QRadioButton(self.widget)
+        self.translationRadioButton.setObjectName("translationRadioButton")
+        self.verticalLayout.addWidget(self.translationRadioButton)
+        self.scalingRadioButton = QtWidgets.QRadioButton(self.widget)
+        self.scalingRadioButton.setObjectName("scalingRadioButton")
+        self.verticalLayout.addWidget(self.scalingRadioButton)
+        self.rotationRadioButton = QtWidgets.QRadioButton(self.widget)
+        self.rotationRadioButton.setObjectName("rotationRadioButton")
+        self.verticalLayout.addWidget(self.rotationRadioButton)
         self.widget1 = QtWidgets.QWidget(self.frame)
         self.widget1.setGeometry(QtCore.QRect(100, 10, 211, 241))
         self.widget1.setObjectName("widget1")
@@ -137,9 +137,9 @@ class Transformations(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.translationCheckbox.setText(_translate("MainWindow", "Translação"))
-        self.scalingCheckbox.setText(_translate("MainWindow", "Escala"))
-        self.rotationCheckbox.setText(_translate("MainWindow", "Rotação"))
+        self.translationRadioButton.setText(_translate("MainWindow", "Translação"))
+        self.scalingRadioButton.setText(_translate("MainWindow", "Escala"))
+        self.rotationRadioButton.setText(_translate("MainWindow", "Rotação"))
         self.label.setText(_translate("MainWindow", "x"))
         self.label_2.setText(_translate("MainWindow", "y"))
         self.label_6.setText(_translate("MainWindow", "x"))
@@ -151,35 +151,33 @@ class Transformations(object):
         self.confirmTransformButton.setText(_translate("MainWindow", "Confirmar"))
         self.resetTransformButton.setText(_translate("MainWindow", "Cancelar"))
 
+
+
+
     def confirmTransformation(self):
         transformData = {}
 
         transformData['object'] = self.currentObject
-        transformData['translation'] = self.translationCheckbox.isChecked()
+        if self.translationRadioButton.isChecked():
+            transformData['type'] = 'translation'
+            transformData['x'] = self.lineEdit.text()
+            transformData['y'] = self.lineEdit_2.text()
 
-        if(transformData['translation']):
-            transformData['tx'] = self.lineEdit.text()
-            transformData['ty'] = self.lineEdit_2.text()
+        elif self.scalingRadioButton.isChecked():
+            transformData['type'] = 'scaling'
+            transformData['x'] = self.lineEdit_4.text()
+            transformData['y'] = self.lineEdit_5.text()
 
-        transformData['scaling'] = self.scalingCheckbox.isChecked()
-
-        if(transformData['scaling']):
-            transformData['sx'] = self.lineEdit_4.text()
-            transformData['sy'] = self.lineEdit_5.text()
-
-        transformData['rotation'] = self.rotationCheckbox.isChecked()
-
-        if(transformData['rotation']):
+        elif self.rotationRadioButton.isChecked():
+            transformData['type'] = 'rotation'
             transformData['degrees'] = self.lineEdit_3.text()
 
-            if self.radioAroundWorld.isChecked():
-                transformData['radioOption'] = 'around_world'
-            elif self.radioAroundObjectCenter.isChecked():
-                transformData['radioOption'] = 'around_object_center'
-            elif self.radioAnyPoint.isChecked():
-                transformData['radioOption'] = 'any_point'
-            else:
-                transformData['radioOption'] = 'None'
+        if self.radioAroundWorld.isChecked():
+            transformData['around'] = 'world'
+        elif self.radioAroundObjectCenter.isChecked():
+            transformData['around'] = 'object_center'
+        elif self.radioAnyPoint.isChecked():
+            transformData['around'] = 'any_point'
 
         self.controller.transformObject(transformData)
         self.closeModal()
