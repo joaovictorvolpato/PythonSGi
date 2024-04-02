@@ -34,8 +34,10 @@ class Point(Drawable):
         )
         painter.drawEllipse(x, y, 5, 5)
 
-    def transform(self, matrix: np.matrix):
-        return super().transform(matrix)
+    def transform(self, matrix: np.ndarray):
+        mult = np.dot(np.array([self.__x, self.__y, 1]), matrix)
+        self.__x = mult.item(0)
+        self.__y = mult.item(1)
 
     def transformToView(self):
         pass

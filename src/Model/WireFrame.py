@@ -68,12 +68,6 @@ class Wireframe(Drawable):
             print("obj:", self.__firstPoint)
             self.__firstPoint.draw(painter)
 
-    def applyTransformations(self, matrix: np.matrix) -> None:
-        for point in self.__pointsList:
-            mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
-            point.setX(mult.item(0))
-            point.setY(mult.item(1))
-
     def calculateGeometricCenter(self) -> list:
         xSum = 0
         ySum = 0
@@ -96,5 +90,7 @@ class Wireframe(Drawable):
     def transformToView(self):
         pass
 
-    def transform(self, matrix: np.matrix):
-        return super().transform(matrix)
+    def transform(self, matrix: np.ndarray):
+        for point in self.__pointsList:
+            point.transform(matrix)
+        

@@ -45,7 +45,7 @@ class MatrixOperations:
         ])
         return self.__rotation_matrix
 
-    def matrix_multiplication(self, matrix1, matrix2):
+    def matrix_multiplication(self, matrix1: np.ndarray, matrix2:np.ndarray) -> np.ndarray:
         return np.dot(matrix1, matrix2)
     
     def matrix_composition(self, list_of_matrices) -> np.ndarray:

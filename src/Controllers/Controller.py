@@ -1,4 +1,5 @@
 from src.Model.DisplayFile import DisplayFile
+from src.Model.MatrixOperations import MatrixOperations
 from src.Model.Window import Window
 from src.Model.Viewport import Viewport
 from src.Model.Patterns.observer import Observer
@@ -9,6 +10,7 @@ class Controller(Observer):
     def __init__(self):
         self.__display_file = DisplayFile()
         self.__window = Window()
+        self.__matrix_operations = MatrixOperations()
         self.__view_port = None
         self.__selected_object = "Point"
         self.__object_name = ""
@@ -108,4 +110,19 @@ class Controller(Observer):
         self.__display_file.deleteObject(name)
         self.__view_port.update()
 
-
+    def transformObject(self, name: str, transformation: dict):
+        if transformation["type"] == "scaling":
+            matrix = self.__matrix_operations.build_scaling_matrix(
+                transformation["sx"], transformation["sy"]
+            )
+        if transformation["type"] == "rotation":
+            matrix = self.__matrix_operations.build_rotation_matrix(
+                transformation["angle"]
+            )
+        if transformation["type"] == "translation":    
+            matrix = self.__matrix_operations.build_translation_matrix(
+                transformation["tx"], transformation["ty"]
+            )
+        object_to_transform = self.__display_file.getObjectByName(name)
+        object_to_transform.transform(matrix)
+        self.__view_port.update()
