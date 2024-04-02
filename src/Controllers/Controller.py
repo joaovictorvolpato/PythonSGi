@@ -111,17 +111,18 @@ class Controller(Observer):
         self.__view_port.update()
 
     def transformObject(self, name: str, transformation: dict):
+        print("Transforming object: ", name, transformation)
         if transformation["type"] == "scaling":
             object_to_transform = self.__display_file.getObjectByName(name)
             center = object_to_transform.getCenter()
             matrix1 = self.__matrix_operations.build_translation_matrix(
-                -center.x, -center.y
+                -center[0], -center[1]
             )
             matrix2 = self.__matrix_operations.build_scaling_matrix(
-                transformation["sx"], transformation["sy"]
+                float(transformation["sx"]), float(transformation["sy"])
             )
             matrix3 = self.__matrix_operations.build_translation_matrix(
-                center.x, center.y
+                center[0], center[1]
             )
             matrix = self.__matrix_operations.matrix_composition(
                 [matrix1, matrix2, matrix3]
@@ -131,13 +132,42 @@ class Controller(Observer):
                 object_to_transform = self.__display_file.getObjectByName(name)
                 center = object_to_transform.getCenter()
                 matrix1 = self.__matrix_operations.build_translation_matrix(
-                    -center.x, -center.y
+                    -center[0], -center[1]
                 )
                 matrix2 = self.__matrix_operations.build_rotation_matrix(
-                    transformation["angle"]
+                    float(transformation["angle"])
                 )
                 matrix3 = self.__matrix_operations.build_translation_matrix(
-                    center.x, center.y
+                    center[0], center[1]
+                )
+                matrix = self.__matrix_operations.matrix_composition(
+                    [matrix1, matrix2, matrix3]
+                )
+            elif transformation["center"] == "origin":
+                center = self.__window.getOrigin()
+                matrix1 = self.__matrix_operations.build_translation_matrix(
+                    -center[0], -center[1]
+                )
+                matrix2 = self.__matrix_operations.build_rotation_matrix(
+                    float(transformation["angle"])
+                )
+                matrix3 = self.__matrix_operations.build_translation_matrix(
+                    center[0], center[1]
+                )
+                matrix = self.__matrix_operations.matrix_composition(
+                    [matrix1, matrix2, matrix3]
+                )
+            elif transformation["center"] == "point":
+                x = transformation["pointx"]
+                y = transformation["pointy"]
+                matrix1 = self.__matrix_operations.build_translation_matrix(
+                    -int(x), -int(y)
+                )
+                matrix2 = self.__matrix_operations.build_rotation_matrix(
+                    float(transformation["angle"])
+                )
+                matrix3 = self.__matrix_operations.build_translation_matrix(
+                    int(x), int(y)
                 )
                 matrix = self.__matrix_operations.matrix_composition(
                     [matrix1, matrix2, matrix3]

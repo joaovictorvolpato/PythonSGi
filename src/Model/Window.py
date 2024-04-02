@@ -11,6 +11,9 @@ class Window:
         self.step = 10  # amount of pixels
         self.rotation_zoom_percentage = 10
 
+    def getOrigin(self):
+        return self.xw_min, self.yw_min
+
     def zoom(self, direction: str):
         if direction == "OUT":
             zoomAmount = 1 + self.rotation_zoom_percentage / 100
