@@ -126,7 +126,7 @@ class Controller(Observer):
             )
             matrix = self.__matrix_operations.matrix_composition(
                 [matrix1, matrix2, matrix3]
-            )               
+            )
         if transformation["type"] == "rotation":
             if transformation["center"] == "object":
                 object_to_transform = self.__display_file.getObjectByName(name)
@@ -172,7 +172,7 @@ class Controller(Observer):
                 matrix = self.__matrix_operations.matrix_composition(
                     [matrix1, matrix2, matrix3]
                 )
-        if transformation["type"] == "translation":    
+        if transformation["type"] == "translation":
             matrix = self.__matrix_operations.build_translation_matrix(
                 transformation["tx"], transformation["ty"]
             )
