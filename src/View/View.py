@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QColorDialog
+
 
 
 from src.View.main_ui import Ui_Dialog
@@ -31,6 +33,7 @@ class View(QMainWindow, Ui_Dialog):
         self.confirmButton.clicked.connect(lambda: self.confirmObject(self.lineEdit.text()))
         self.lineEdit.textChanged.connect(lambda: self.setObjectName(self.lineEdit.text()))
         self.listWidget.doubleClicked.connect(lambda: self.openTransformationModal(self.listWidget.currentItem().text()))
+        self.pushButton_color.clicked.connect(lambda: self.setColorObject())
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -64,7 +67,6 @@ class View(QMainWindow, Ui_Dialog):
             self.lineEdit.clear()
 
     def setObjectName(self, name: str):
-        print(name)
         self.__controller.object_name = name
 
     def openTransformationModal(self, objectName: str):
@@ -78,3 +80,6 @@ class View(QMainWindow, Ui_Dialog):
             closeModal=self.window.close,
         )
         self.window.show()
+
+    def setColorObject(self) -> None:
+        self.__controller.object_color = QColorDialog.getColor()

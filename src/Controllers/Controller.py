@@ -1,3 +1,5 @@
+from PyQt5 import QtCore
+
 from src.Model.DisplayFile import DisplayFile
 from src.Model.MatrixOperations import MatrixOperations
 from src.Model.Window import Window
@@ -14,6 +16,7 @@ class Controller(Observer):
         self.__view_port = None
         self.__selected_object = "Point"
         self.__object_name = ""
+        self.__object_color = QtCore.Qt.black;
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
@@ -46,6 +49,14 @@ class Controller(Observer):
     @object_name.setter
     def object_name(self, object_name: str):
         self.__object_name = object_name
+
+    @property
+    def object_color(self):
+        return self.__object_color
+
+    @object_color.setter
+    def object_color(self, object_color: str):
+        self.__object_color = object_color
 
     def update(self):
         print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))

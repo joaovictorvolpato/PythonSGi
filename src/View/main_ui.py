@@ -84,6 +84,9 @@ class Ui_Dialog(QDialog):
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout.addWidget(self.pushButton_2)
         self.verticalLayout.addLayout(self.horizontalLayout)
+        self.pushButton_color = QtWidgets.QPushButton(Dialog)
+        self.pushButton_color.setGeometry(QtCore.QRect(50, 480, 90, 28))
+        self.pushButton_color.setObjectName("pushButton_color")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -104,6 +107,8 @@ class Ui_Dialog(QDialog):
         self.comboBox.setItemText(2, _translate("Dialog", "Wireframe"))
         self.pushButton.setText(_translate("Dialog", "Zoom In"))
         self.pushButton_2.setText(_translate("Dialog", "Zoom Out"))
+        self.pushButton_color.setText(_translate("Dialog", "Cor"))
+
 
     def attach_controllerUI(self, controller):
         self.ViewPort.attach_controller(controller)
