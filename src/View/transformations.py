@@ -160,24 +160,24 @@ class Transformations(object):
         transformData['object'] = self.currentObject
         if self.translationRadioButton.isChecked():
             transformData['type'] = 'translation'
-            transformData['x'] = self.lineEdit.text()
-            transformData['y'] = self.lineEdit_2.text()
+            transformData['tx'] = self.lineEdit.text()
+            transformData['ty'] = self.lineEdit_2.text()
 
         elif self.scalingRadioButton.isChecked():
             transformData['type'] = 'scaling'
-            transformData['x'] = self.lineEdit_4.text()
-            transformData['y'] = self.lineEdit_5.text()
+            transformData['sx'] = self.lineEdit_4.text()
+            transformData['sy'] = self.lineEdit_5.text()
 
         elif self.rotationRadioButton.isChecked():
             transformData['type'] = 'rotation'
-            transformData['degrees'] = self.lineEdit_3.text()
+            transformData['angle'] = self.lineEdit_3.text()
 
         if self.radioAroundWorld.isChecked():
-            transformData['around'] = 'world'
+            transformData['center'] = 'origin'
         elif self.radioAroundObjectCenter.isChecked():
-            transformData['around'] = 'object_center'
+            transformData['center'] = 'object'
         elif self.radioAnyPoint.isChecked():
-            transformData['around'] = 'any_point'
+            transformData['center'] = 'point'
 
-        self.controller.transformObject(transformData)
+        self.controller.transformObject(self.currentObject.name, transformData)
         self.closeModal()

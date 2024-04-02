@@ -63,7 +63,7 @@ class Wireframe(Drawable):
                         self.__pointsList[i + 1],
                         window=self.__window,
                     )
-                line.draw(painter, wireframe=True)
+                line.draw(painter)
         else:
             print("obj:", self.__firstPoint)
             self.__firstPoint.draw(painter)
@@ -72,8 +72,8 @@ class Wireframe(Drawable):
         xSum = 0
         ySum = 0
         for point in self.__pointsList:
-            xSum += point.getX()
-            ySum += point.getY()
+            xSum += point.x
+            ySum += point.y
 
         return [xSum / len(self.__pointsList), ySum / len(self.__pointsList)]
 
