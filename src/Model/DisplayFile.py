@@ -115,3 +115,16 @@ class DisplayFile(SingletonClass):
 
         self.setObjectName(objectName, "black")
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
+
+    def getObjectByName(self, name: str) -> Point | Line | Wireframe:
+        for point in self.__points:
+            if point.name == name:
+                return point
+
+        for line in self.__lines:
+            if line.name == name:
+                return line
+
+        for wireframe in self.__wireframes:
+            if wireframe.name == name:
+                return wireframe

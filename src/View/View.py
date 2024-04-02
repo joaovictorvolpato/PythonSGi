@@ -8,6 +8,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from src.View.main_ui import Ui_Dialog
 from src.Controllers.Controller import Controller
+from src.View.transformations import Transformations
 
 class View(QMainWindow, Ui_Dialog):
     def __init__(self, parent=None):
@@ -29,6 +30,7 @@ class View(QMainWindow, Ui_Dialog):
         self.deleteButton.clicked.connect(self.deleteObject)
         self.confirmButton.clicked.connect(lambda: self.confirmObject(self.lineEdit.text()))
         self.lineEdit.textChanged.connect(lambda: self.setObjectName(self.lineEdit.text()))
+        self.listWidget.doubleClicked.connect(lambda: self.openTransformationModal(self.listWidget.currentItem().text()))
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -64,3 +66,14 @@ class View(QMainWindow, Ui_Dialog):
     def setObjectName(self, name: str):
         print(name)
         self.__controller.object_name = name
+
+    def openTransformationModal(self, objectName: str):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Transformations()
+        self.ui.setupUi(
+            self.window,
+            currentObject=self.__controller.display_file.getObjectByName(objectName),
+            updateObject=self.__controller.update(),
+            closeModal=self.window.close,
+        )
+        self.window.show()
