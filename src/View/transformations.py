@@ -12,12 +12,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Transformations(object):
-    def setupUi(self, MainWindow, currentObject: str, updateObject, closeModal):
+    def setupUi(self, MainWindow, currentObject: str, updateObject, controller, closeModal):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(359, 516)
         self.currentObject = currentObject
         self.updateObject = updateObject
         self.closeModal = closeModal
+        self.controller = controller
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.labelName = QtWidgets.QLabel(self.centralwidget)
@@ -115,9 +116,11 @@ class Transformations(object):
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.confirmTransformButton = QtWidgets.QPushButton(self.widget3)
         self.confirmTransformButton.setObjectName("confirmTransformButton")
+        self.confirmTransformButton.clicked.connect(self.confirmTransformation)
         self.horizontalLayout_5.addWidget(self.confirmTransformButton)
         self.resetTransformButton = QtWidgets.QPushButton(self.widget3)
         self.resetTransformButton.setObjectName("resetTransformButton")
+        self.resetTransformButton.clicked.connect(self.closeModal)
         self.horizontalLayout_5.addWidget(self.resetTransformButton)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -134,7 +137,6 @@ class Transformations(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        #self.labelName.setText(_translate("MainWindow", "Nome"))
         self.translationCheckbox.setText(_translate("MainWindow", "Translação"))
         self.scalingCheckbox.setText(_translate("MainWindow", "Escala"))
         self.rotationCheckbox.setText(_translate("MainWindow", "Rotação"))
@@ -148,3 +150,36 @@ class Transformations(object):
         self.radioAnyPoint.setText(_translate("MainWindow", "Em torno de um ponto qualquer"))
         self.confirmTransformButton.setText(_translate("MainWindow", "Confirmar"))
         self.resetTransformButton.setText(_translate("MainWindow", "Cancelar"))
+
+    def confirmTransformation(self):
+        transformData = {}
+
+        transformData['object'] = self.currentObject
+        transformData['translation'] = self.translationCheckbox.isChecked()
+
+        if(transformData['translation']):
+            transformData['tx'] = self.lineEdit.text()
+            transformData['ty'] = self.lineEdit_2.text()
+
+        transformData['scaling'] = self.scalingCheckbox.isChecked()
+
+        if(transformData['scaling']):
+            transformData['sx'] = self.lineEdit_4.text()
+            transformData['sy'] = self.lineEdit_5.text()
+
+        transformData['rotation'] = self.rotationCheckbox.isChecked()
+
+        if(transformData['rotation']):
+            transformData['degrees'] = self.lineEdit_3.text()
+
+            if self.radioAroundWorld.isChecked():
+                transformData['radioOption'] = 'around_world'
+            elif self.radioAroundObjectCenter.isChecked():
+                transformData['radioOption'] = 'around_object_center'
+            elif self.radioAnyPoint.isChecked():
+                transformData['radioOption'] = 'any_point'
+            else:
+                transformData['radioOption'] = 'None'
+
+        self.controller.transformObject(transformData)
+        self.closeModal()

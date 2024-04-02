@@ -108,4 +108,7 @@ class Controller(Observer):
         self.__display_file.deleteObject(name)
         self.__view_port.update()
 
+    def transformObject(self, transformationData):
+        print("Transforming object", transformationData)
+
 
