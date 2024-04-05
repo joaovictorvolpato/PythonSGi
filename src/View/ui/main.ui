@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>550</height>
+    <width>1015</width>
+    <height>706</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,8 +105,8 @@
     <rect>
      <x>225</x>
      <y>21</y>
-     <width>471</width>
-     <height>401</height>
+     <width>761</width>
+     <height>581</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -206,6 +206,42 @@
    <property name="text">
     <string>Cor</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>530</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QPushButton" name="rotateLeftButton">
+      <property name="font">
+       <font>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>⟲</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="rotateRightButton">
+      <property name="font">
+       <font>
+        <pointsize>22</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>⟳</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

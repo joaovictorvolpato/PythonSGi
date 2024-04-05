@@ -191,3 +191,10 @@ class Controller(Observer):
         object_to_transform = self.__display_file.getObjectByName(name)
         object_to_transform.transform(matrix)
         self.__view_port.update()
+
+    def rotate(self, direction: str):
+        if direction == "LEFT":
+            self.__window.rotate("LEFT")
+        elif direction == "RIGHT":
+            self.__window.rotate("RIGHT")
+        self.__view_port.update()

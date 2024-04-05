@@ -16,7 +16,7 @@ from src.Model.Viewport import Viewport
 class Ui_Dialog(QDialog):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(715, 550)
+        Dialog.resize(1015, 706)
         self.listWidget = QtWidgets.QListWidget(Dialog)
         self.listWidget.setGeometry(QtCore.QRect(11, 11, 191, 141))
         self.listWidget.setObjectName("listWidget")
@@ -42,7 +42,7 @@ class Ui_Dialog(QDialog):
         self.label_2.setGeometry(QtCore.QRect(50, 310, 91, 20))
         self.label_2.setObjectName("label_2")
         self.ViewPort = Viewport(Dialog)
-        self.ViewPort.setGeometry(QtCore.QRect(225, 21, 471, 401))
+        self.ViewPort.setGeometry(QtCore.QRect(225, 21, 761, 581))
         self.ViewPort.setMouseTracking(True)
         self.ViewPort.setObjectName("ViewPort")
         self.ViewPort.setAttribute(QtCore.Qt.WA_StyledBackground, True)
@@ -86,7 +86,24 @@ class Ui_Dialog(QDialog):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.pushButton_color = QtWidgets.QPushButton(Dialog)
         self.pushButton_color.setGeometry(QtCore.QRect(50, 480, 90, 28))
-        self.pushButton_color.setObjectName("pushButton_color")
+        self.widget = QtWidgets.QWidget(Dialog)
+        self.widget.setGeometry(QtCore.QRect(30, 530, 131, 31))
+        self.widget.setObjectName("widget")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.widget)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.rotateLeftButton = QtWidgets.QPushButton(self.widget)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.rotateLeftButton.setFont(font)
+        self.rotateLeftButton.setObjectName("rotateLeftButton")
+        self.horizontalLayout_3.addWidget(self.rotateLeftButton)
+        self.rotateRightButton = QtWidgets.QPushButton(self.widget)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.rotateRightButton.setFont(font)
+        self.rotateRightButton.setObjectName("rotateRightButton")
+        self.horizontalLayout_3.addWidget(self.rotateRightButton)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -108,6 +125,8 @@ class Ui_Dialog(QDialog):
         self.pushButton.setText(_translate("Dialog", "Zoom In"))
         self.pushButton_2.setText(_translate("Dialog", "Zoom Out"))
         self.pushButton_color.setText(_translate("Dialog", "Cor"))
+        self.rotateLeftButton.setText(_translate("Dialog", "⟲"))
+        self.rotateRightButton.setText(_translate("Dialog", "⟳"))
 
 
     def attach_controllerUI(self, controller):

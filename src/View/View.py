@@ -34,6 +34,8 @@ class View(QMainWindow, Ui_Dialog):
         self.lineEdit.textChanged.connect(lambda: self.setObjectName(self.lineEdit.text()))
         self.listWidget.doubleClicked.connect(lambda: self.openTransformationModal(self.listWidget.currentItem().text()))
         self.pushButton_color.clicked.connect(lambda: self.setColorObject())
+        self.rotateLeftButton.clicked.connect(lambda: self.rotate('LEFT'))
+        self.rotateRightButton.clicked.connect(lambda: self.rotate('RIGHT'))
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -83,3 +85,6 @@ class View(QMainWindow, Ui_Dialog):
 
     def setColorObject(self) -> None:
         self.__controller.object_color = QColorDialog.getColor()
+
+    def rotate(self, direction: str):
+        self.__controller.rotate(direction)
