@@ -29,9 +29,19 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
 
-        print("DISPLAY FILE ADDR:", self.displayFile)
-        
-        print(self.displayFile.getObjects())
+        for point in self.displayFile.points:
+            normal_x, normal_y = self.displayFile.normalizeObject(point)
+            point.setNormalCoordinates(normal_x, normal_y)
+
+        for line in self.displayFile.lines:
+            for point in line.points:
+                normal_x, normal_y = self.displayFile.normalizeObject(point)
+                point.setNormalCoordinates(normal_x, normal_y)
+
+        for wireframe in self.displayFile.wireframes:
+            for point in wireframe.points:
+                normal_x, normal_y = self.displayFile.normalizeObject(point)
+                point.setNormalCoordinates(normal_x, normal_y)
 
         for obj in self.displayFile.getObjects():
             if obj is self.displayFile.get_buffer():
