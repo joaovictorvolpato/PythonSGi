@@ -35,7 +35,8 @@ class Line(Drawable, Observed):
 
     def draw(self, painter: QtGui.QPainter,)-> None:
         self.start.normalizePoint()
-        self.end.normalizePoint()
+        if self.end is not None:
+            self.end.normalizePoint()
         start_point_x, start_point_y = viewportTransformation(
                 self.start.x_normalized, self.start.y_normalized, self.__window
             )
