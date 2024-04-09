@@ -7,6 +7,7 @@ from src.Model.Viewport import Viewport
 from src.Model.Patterns.observer import Observer
 from src.Model.Utils.ViewPortTransform import transformToWorldCoordinates
 from src.Model.Point import Point
+from src.Model.Utils.saveFile import saveFile
 from src.Model.Drawable import Drawable
 
 class Controller(Observer):
@@ -18,6 +19,8 @@ class Controller(Observer):
         self.__selected_object = "Point"
         self.__object_name = ""
         self.__object_color = None
+        self.__objectsList = []
+        self.__file_modal = None
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
@@ -59,6 +62,22 @@ class Controller(Observer):
     def object_color(self, object_color: str):
         print("Setting object color to ", object_color)
         self.__object_color = object_color
+
+    @property
+    def objectsList(self):
+        return self.__objectsList
+
+    @objectsList.setter
+    def objectsList(self, objectsList: list):
+        self.__objectsList = objectsList
+
+    @property
+    def file_modal(self):
+        return self.__file_modal
+
+    @file_modal.setter
+    def file_modal(self, file_modal):
+        self.__file_modal = file_modal
 
     def update(self):
         print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))
@@ -199,6 +218,29 @@ class Controller(Observer):
         elif direction == "RIGHT":
             self.rotateWindow(-float(self.window.rotation_amount))
         self.__view_port.update()
+
+    def setWindowDimensions(self, min, max):
+        self.__window.xw_min = min[0]
+        self.__window.yw_min = min[1]
+        self.__window.xw_max = max[0]
+        self.__window.yw_max = max[1]
+
+    def saveObjectsToFile(self, filename: str) -> None:
+        objects = []
+
+        for point in self.__display_file.points:
+            objects.append(point)
+        for line in self.__display_file.lines:
+            objects.append(line)
+        for wireframe in self.__display_file.wireframes:
+            objects.append(wireframe)
+
+        window = self.__window
+        w_min = Point(window.xw_min, window.yw_min, window)
+        w_max = Point(window.xw_max, window.yw_max, window)
+
+        saveFile(filename=filename, objects=objects, window=[w_min, w_max])
+        self.file_modal.close()
 
     def _rotateObject(self, obj: Drawable, x, y, amount):
         translation = self.__matrix_operations.build_translation_matrix(

@@ -1,0 +1,18 @@
+v 84 -17 0
+v 655 -12 0
+v 158 362 0
+v 513 324 0
+v 123 204 0
+v 534 48 0
+v 671 275 0
+v 0 0 0
+v 760 490 0
+mtllib Linha.mtl
+o window
+w 8 9
+o Linha
+usemtl cor0
+l 1 2
+o Wireframe
+usemtl cor1
+l 3 4 5 6 7

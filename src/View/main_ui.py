@@ -104,6 +104,9 @@ class Ui_Dialog(QDialog):
         self.rotateRightButton.setFont(font)
         self.rotateRightButton.setObjectName("rotateRightButton")
         self.horizontalLayout_3.addWidget(self.rotateRightButton)
+        self.addFileButton = QtWidgets.QPushButton(Dialog)
+        self.addFileButton.setGeometry(QtCore.QRect(50, 600, 91, 31))
+        self.addFileButton.setObjectName("addFileButton")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -127,6 +130,7 @@ class Ui_Dialog(QDialog):
         self.pushButton_color.setText(_translate("Dialog", "Cor"))
         self.rotateLeftButton.setText(_translate("Dialog", "⟲"))
         self.rotateRightButton.setText(_translate("Dialog", "⟳"))
+        self.addFileButton.setText(_translate("Dialog", "Add File"))
 
 
     def attach_controllerUI(self, controller):
