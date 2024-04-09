@@ -7,7 +7,7 @@ from src.Model.Viewport import Viewport
 from src.Model.Patterns.observer import Observer
 from src.Model.Utils.ViewPortTransform import transformToWorldCoordinates
 from src.Model.Point import Point
-from src.Model.Utils.saveFile import writeObjectsToFile
+from src.Model.Utils.saveFile import saveFile
 from src.Model.Drawable import Drawable
 
 class Controller(Observer):
@@ -239,7 +239,7 @@ class Controller(Observer):
         w_min = Point(window.xw_min, window.yw_min)
         w_max = Point(window.xw_max, window.yw_max)
 
-        writeObjectsToFile(filename=filename, objects=objects, window=[w_min, w_max])
+        saveFile(filename=filename, objects=objects, window=[w_min, w_max])
         self.file_modal.close()
     def _rotateObject(self, obj: Drawable, x, y, amount):
         translation = self.__matrix_operations.build_translation_matrix(

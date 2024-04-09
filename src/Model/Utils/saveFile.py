@@ -4,8 +4,7 @@ from src.Model.WireFrame import Wireframe
 
 from PyQt5.QtGui import QColor
 
-
-def writeObjectsToFile(filename: str, objects: list, window: list):
+def saveFile(filename: str, objects: list, window: list):
     vectors = {"SIZE": 0}
 
     points = {}
@@ -14,14 +13,14 @@ def writeObjectsToFile(filename: str, objects: list, window: list):
 
     colors = {}
     reverse_color = {}
-    qtd_cores = 0
+    color_quantity = 0
 
     for obj in objects:
         objColorToRGB = _convertColorToRGB(obj.color)
         if not objColorToRGB in colors.values():
-            colors[f"cor{qtd_cores}"] = objColorToRGB
-            reverse_color[objColorToRGB] = f"cor{qtd_cores}"
-            qtd_cores += 1
+            colors[f"cor{color_quantity}"] = objColorToRGB
+            reverse_color[objColorToRGB] = f"cor{color_quantity}"
+            color_quantity += 1
 
         current_color = reverse_color[objColorToRGB]
         obj_name = obj.name.replace(" ", "_")
@@ -44,7 +43,6 @@ def writeObjectsToFile(filename: str, objects: list, window: list):
     _save_mtl_file(colors, filename)
     _save_obj_file(filename, points, lines, wireframes, vectors, window)
 
-
 def _getVectors(points: list[Point], vectors: dict, color: str) -> str:
     reversed_vectors = {v: k for k, v in vectors.items()}
     point_as_string = ""
@@ -60,11 +58,9 @@ def _getVectors(points: list[Point], vectors: dict, color: str) -> str:
 
     return point_as_string
 
-
 def _convertColorToRGB(color):
     color = QColor(color).getRgb()[0:3]
     return str([c / 255 for c in color])
-
 
 def _save_mtl_file(colors: dict, filename: str) -> None:
     string = ""
@@ -74,7 +70,6 @@ def _save_mtl_file(colors: dict, filename: str) -> None:
 
     with open(f"src/objects/{filename}.mtl", "w+") as f:
         f.write(string)
-
 
 def _save_obj_file(
     filename: str,
@@ -99,7 +94,6 @@ def _save_obj_file(
 
     with open(f"src/objects/{filename}.obj", "w+") as f:
         f.write(string)
-
 
 def _addObjectTypeToString(objects: list, currentString: str) -> str:
     for name, data in objects.items():

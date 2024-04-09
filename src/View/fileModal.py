@@ -2,7 +2,7 @@ from os import listdir
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from src.Model.Utils.readFile import readObjFile
+from src.Model.Utils.readFile import readFile
 
 
 class FileModal:
@@ -58,7 +58,7 @@ class FileModal:
             self.filesList.addItem(file)
 
     def openFile(self, filename: str) -> None:
-        objects, window = readObjFile(filename)
+        objects, window = readFile(filename)
 
         self.setWindowDimensions(window[0], window[1])
         self.getObjectsFromFile(objects)

@@ -5,12 +5,10 @@ from src.Model.Point import Point
 from src.Model.Line import Line
 from src.Model.WireFrame import Wireframe
 
-
-def readObjFile(name: str) -> tuple[list, list]:
+def readFile(name: str) -> tuple[list, list]:
     if not os.path.isfile(f"src/objects/{name}"):
         name = f"{name}.obj"
         if not os.path.isfile(f"src/objects/{name}"):
-            print("não existe o arquivo")
             return
 
     objects = None
@@ -25,14 +23,12 @@ def readObjFile(name: str) -> tuple[list, list]:
     objects = _createObjects(vertices, materials, objects)
     return objects, window
 
-
 def _clearContent(content: list[str]) -> list[str]:
     new_content = []
     for string in content:
         new_content.append(string.replace("\n", ""))
 
     return new_content
-
 
 def _processContent(content: list[str]):
     vertices = []
@@ -72,7 +68,6 @@ def _processContent(content: list[str]):
 
     return vertices, materials, objects, window
 
-
 def _readMaterialFile(materials_files: list[str]) -> dict:
     data = {}
     for file in materials_files:
@@ -92,13 +87,10 @@ def _readMaterialFile(materials_files: list[str]) -> dict:
 
     return data
 
-
 def _convertToHEX(values: list[str]):
     r, g, b = [int(float(val) * 255) for val in values]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
-
-# creates the object but without the window reference
 def _createObjects(vertices, materials, objects):
     objects_list = []
 
