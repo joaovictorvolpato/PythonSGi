@@ -129,3 +129,11 @@ class DisplayFile(SingletonClass):
         for wireframe in self.__wireframes:
             if wireframe.name == name:
                 return wireframe
+
+    def addObjectFromFile(self, obj: Point | Line | Wireframe):
+        if isinstance(obj, Point):
+            self.__points.append(obj)
+        elif isinstance(obj, Line):
+            self.__lines.append(obj)
+        elif isinstance(obj, Wireframe):
+            self.__wireframes.append(obj)

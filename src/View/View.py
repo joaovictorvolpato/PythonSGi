@@ -1,9 +1,9 @@
 
 from PyQt5.QtWidgets import (
-     QMainWindow
+    QMainWindow
 )
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QColorDialog
 
 
@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QColorDialog
 from src.View.main_ui import Ui_Dialog
 from src.Controllers.Controller import Controller
 from src.View.transformations import Transformations
+from src.View.fileModal import FileModal
 
 class View(QMainWindow, Ui_Dialog):
     def __init__(self, parent=None):
@@ -36,6 +37,7 @@ class View(QMainWindow, Ui_Dialog):
         self.pushButton_color.clicked.connect(lambda: self.setColorObject())
         self.rotateLeftButton.clicked.connect(lambda: self.rotate('LEFT'))
         self.rotateRightButton.clicked.connect(lambda: self.rotate('RIGHT'))
+        self.addFileButton.clicked.connect( self.openFile)
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -88,3 +90,23 @@ class View(QMainWindow, Ui_Dialog):
 
     def rotate(self, direction: str):
         self.__controller.rotate(direction)
+
+    def openFile(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = FileModal()
+        self.ui.setupUi(
+            self.window,
+            closeModal=self.window.close,
+            setWindowDimensions=self.__controller.setWindowDimensions,
+            getObjectsFromFile=self.getObjectsFromFile,
+            saveObjectsToFile=self.__controller.saveObjectsToFile,
+        )
+        self.__controller.file_modal = self.window
+        self.window.show()
+
+    def getObjectsFromFile(self, objectsList: list):
+        for obj in objectsList:
+            obj.window = self.__controller.window
+            self.listWidget.addItem(obj.name)
+            self.__controller.display_file.addObjectFromFile(obj)
+            self.update()

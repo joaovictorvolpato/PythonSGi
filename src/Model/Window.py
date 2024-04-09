@@ -11,6 +11,38 @@ class Window:
         self.step = 10  # amount of pixels
         self.rotation_zoom_percentage = 10
 
+    @property
+    def xw_min(self):
+        return self.__xw_min
+
+    @xw_min.setter
+    def xw_min(self, xw_min):
+        self.__xw_min = xw_min
+
+    @property
+    def yw_min(self):
+        return self.__yw_min
+
+    @yw_min.setter
+    def yw_min(self, yw_min):
+        self.__yw_min = yw_min
+
+    @property
+    def xw_max(self):
+        return self.__xw_max
+
+    @xw_max.setter
+    def xw_max(self, xw_max):
+        self.__xw_max = xw_max
+
+    @property
+    def yw_max(self):
+        return self.__yw_max
+
+    @yw_max.setter
+    def yw_max(self, yw_max):
+        self.__yw_max = yw_max
+
     def getOrigin(self):
         return self.xw_min, self.yw_min
 

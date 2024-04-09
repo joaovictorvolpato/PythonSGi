@@ -44,3 +44,6 @@ class Point(Drawable):
 
     def transformToView(self):
         pass
+
+    def getPointAsVector(self) -> str:
+            return f"v {self.__x} {self.__y} 0.0"
