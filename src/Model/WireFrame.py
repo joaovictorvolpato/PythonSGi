@@ -46,7 +46,8 @@ class Wireframe(Drawable):
     def draw(self, painter: QtGui.QPainter):
         points = []
         for point in self.__pointsList:
-            x, y = viewportTransformation(point.x, point.y, self.__window)
+            point.normalizePoint()
+            x, y = viewportTransformation(point.x_normalized, point.y_normalized, self.__window)
             points.append(QPoint(x, y))
         # painter.setPen(self.__color)
         painter.drawPolygon(points)

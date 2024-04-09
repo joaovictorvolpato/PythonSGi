@@ -10,6 +10,7 @@ class Window:
 
         self.step = 10  # amount of pixels
         self.rotation_zoom_percentage = 10
+        self.rotation_amount = 10
 
     @property
     def xw_min(self):

@@ -29,20 +29,6 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
 
-        for point in self.displayFile.points:
-            normal_x, normal_y = self.displayFile.normalizeObject(point)
-            point.setNormalCoordinates(normal_x, normal_y)
-
-        for line in self.displayFile.lines:
-            for point in line.points:
-                normal_x, normal_y = self.displayFile.normalizeObject(point)
-                point.setNormalCoordinates(normal_x, normal_y)
-
-        for wireframe in self.displayFile.wireframes:
-            for point in wireframe.points:
-                normal_x, normal_y = self.displayFile.normalizeObject(point)
-                point.setNormalCoordinates(normal_x, normal_y)
-
         for obj in self.displayFile.getObjects():
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
@@ -54,6 +40,7 @@ class Viewport(QtWidgets.QWidget, Observed):
                 brush = QtGui.QBrush(color)
                 qp.setBrush(brush)
             print("Drawing object")
+            print(obj)
             obj.draw(qp)
 
     @property

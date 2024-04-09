@@ -34,11 +34,13 @@ class Line(Drawable, Observed):
         return [self.__start, self.__end]
 
     def draw(self, painter: QtGui.QPainter,)-> None:
+        self.start.normalizePoint()
+        self.end.normalizePoint()
         start_point_x, start_point_y = viewportTransformation(
-                self.start.x, self.start.y, self.__window
+                self.start.x_normalized, self.start.y_normalized, self.__window
             )
         end_point_x, end_point_y = viewportTransformation(
-                self.end.x, self.end.y, self.__window
+                self.end.x_normalized, self.end.y_normalized, self.__window
             )
         
         #print points before and after tranformation

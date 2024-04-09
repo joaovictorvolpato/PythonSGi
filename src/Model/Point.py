@@ -6,13 +6,13 @@ from src.Model.Utils.ViewPortTransform import viewportTransformation
 import numpy as np
 
 class Point(Drawable):
-    def __init__(self, x:int, y:int, name:str = None, window:Window = None, color:QtCore.Qt.GlobalColor = None) -> None:
+    def __init__(self, x:int, y:int, window:Window, name:str = None, color:QtCore.Qt.GlobalColor = None) -> None:
         super().__init__(name, color)
         self.__x = x
         self.__y = y
         self.__window = window
-        self.__x_normalized = x
-        self.__y_normalized = y
+        self.__x_normalized = 0
+        self.__y_normalized = 0
 
     @property
     def x(self):
@@ -51,10 +51,18 @@ class Point(Drawable):
         self.__y_normalized = value_y
 
     def draw(self, painter: QtGui.QPainter) -> None:
+        self.normalizePoint()
         x, y = viewportTransformation(
-            self.x, self.y, self.__window
+            self.__x_normalized, self.__y_normalized, self.__window
         )
         painter.drawEllipse(x, y, 5, 5)
+
+    def normalizePoint(self):
+        print("NORMALIZED POINT", self.__x_normalized, self.__y_normalized)
+        yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
+        self.__x_normalized = (self.x - xw_min) / (xw_max - xw_min) * 2 - 1
+        self.__y_normalized = (self.y - yw_min) / (yw_max - yw_min) * 2 - 1
+        
 
     def transform(self, matrix: np.ndarray):
         mult = np.dot(np.array([self.__x, self.__y, 1]), matrix)
