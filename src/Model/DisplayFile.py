@@ -7,6 +7,7 @@ from src.Model.WireFrame import Wireframe
 from src.Model.Patterns.singleton import SingletonMeta
 
 from typing import List
+from typing import Union
 
 
 
@@ -132,7 +133,7 @@ class DisplayFile(SingletonClass):
             if wireframe.name == name:
                 return wireframe
 
-    def addObjectFromFile(self, obj: Point | Line | Wireframe):
+    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe]):
         if isinstance(obj, Point):
             self.__points.append(obj)
         elif isinstance(obj, Line):

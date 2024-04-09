@@ -5,7 +5,10 @@ from src.Model.Point import Point
 from src.Model.Line import Line
 from src.Model.WireFrame import Wireframe
 
-def readFile(name: str, window_controller) -> tuple[list, list]:
+from typing import Tuple
+from typing import List
+
+def readFile(name: str, window_controller) -> Tuple[list, list]:
     if not os.path.isfile(f"src/objects/{name}"):
         name = f"{name}.obj"
         if not os.path.isfile(f"src/objects/{name}"):
@@ -23,14 +26,14 @@ def readFile(name: str, window_controller) -> tuple[list, list]:
     objects = _createObjects(vertices, materials, objects, window_controller)
     return objects, window
 
-def _clearContent(content: list[str]) -> list[str]:
+def _clearContent(content: List[str]) -> List[str]:
     new_content = []
     for string in content:
         new_content.append(string.replace("\n", ""))
 
     return new_content
 
-def _processContent(content: list[str]):
+def _processContent(content: List[str]):
     vertices = []
     materials_files = []
     objects = {}
@@ -68,7 +71,7 @@ def _processContent(content: list[str]):
 
     return vertices, materials, objects, window
 
-def _readMaterialFile(materials_files: list[str]) -> dict:
+def _readMaterialFile(materials_files: List[str]) -> dict:
     data = {}
     for file in materials_files:
         opened_file = open(f"src/objects/{file}")
@@ -87,7 +90,7 @@ def _readMaterialFile(materials_files: list[str]) -> dict:
 
     return data
 
-def _convertToHEX(values: list[str]):
+def _convertToHEX(values: List[str]):
     r, g, b = [int(float(val) * 255) for val in values]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 

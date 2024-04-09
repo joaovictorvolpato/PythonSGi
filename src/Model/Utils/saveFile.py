@@ -2,6 +2,8 @@ from src.Model.Point import Point
 from src.Model.Line import Line
 from src.Model.WireFrame import Wireframe
 
+from typing import List
+
 from PyQt5.QtGui import QColor
 
 def saveFile(filename: str, objects: list, window: list):
@@ -43,7 +45,7 @@ def saveFile(filename: str, objects: list, window: list):
     _save_mtl_file(colors, filename)
     _save_obj_file(filename, points, lines, wireframes, vectors, window)
 
-def _getVectors(points: list[Point], vectors: dict, color: str) -> str:
+def _getVectors(points: List[Point], vectors: dict, color: str) -> str:
     reversed_vectors = {v: k for k, v in vectors.items()}
     point_as_string = ""
     for point in [p.getPointAsVector() for p in points]:
