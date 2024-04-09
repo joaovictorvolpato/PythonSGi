@@ -32,7 +32,7 @@ def saveFile(filename: str, objects: list, window: list):
             string = f"l{_getVectors(objPoints, vectors, current_color)}"
             lines[obj_name] = [string, current_color]
         elif isinstance(obj, Wireframe):
-            objPoints = obj.__pointsList
+            objPoints = obj.points
             string = f"l{_getVectors(objPoints, vectors, current_color)}"
             wireframes[obj_name] = [string, current_color]
 

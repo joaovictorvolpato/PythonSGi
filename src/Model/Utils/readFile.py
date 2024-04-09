@@ -5,7 +5,7 @@ from src.Model.Point import Point
 from src.Model.Line import Line
 from src.Model.WireFrame import Wireframe
 
-def readFile(name: str) -> tuple[list, list]:
+def readFile(name: str, window_controller) -> tuple[list, list]:
     if not os.path.isfile(f"src/objects/{name}"):
         name = f"{name}.obj"
         if not os.path.isfile(f"src/objects/{name}"):
@@ -20,7 +20,7 @@ def readFile(name: str) -> tuple[list, list]:
 
         vertices, materials, objects, window = _processContent(content)
 
-    objects = _createObjects(vertices, materials, objects)
+    objects = _createObjects(vertices, materials, objects, window_controller)
     return objects, window
 
 def _clearContent(content: list[str]) -> list[str]:
@@ -91,7 +91,7 @@ def _convertToHEX(values: list[str]):
     r, g, b = [int(float(val) * 255) for val in values]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
-def _createObjects(vertices, materials, objects):
+def _createObjects(vertices, materials, objects, window):
     objects_list = []
 
     for objName, data in objects.items():
@@ -104,23 +104,23 @@ def _createObjects(vertices, materials, objects):
 
         if len(points) == 1:  # point
             point = [float(p) for p in points[0]]
-            _p = Point(point[0], point[1], name=objName)
+            _p = Point(point[0], point[1], window,name=objName)
             _p.color = color
             objects_list.append(_p)
         elif len(points) == 2:  # line
             point1 = points[0]
-            point1 = Point(float(point1[0]), float(point1[1]))
+            point1 = Point(float(point1[0]), float(point1[1]), window)
             point2 = points[1]
-            point2 = Point(float(point2[0]), float(point2[1]))
-            line = Line(point1, point2, name=objName)
+            point2 = Point(float(point2[0]), float(point2[1]), window)
+            line = Line(point1, point2, name=objName, window=window)
             line.color = color
             objects_list.append(line)
         else:  # wireframe
-            point1 = Point(float(points[0][0]), float(points[0][1]))
-            wireframe = Wireframe(point1, name=objName)
+            point1 = Point(float(points[0][0]), float(points[0][1]), window)
+            wireframe = Wireframe(point1, name=objName, window=window)
 
             for point in points[1:]:
-                wireframe.addPoint(Point(float(point[0]), float(point[1])))
+                wireframe.addPoint(Point(float(point[0]), float(point[1]), window))
             wireframe.color = color
             objects_list.append(wireframe)
 

@@ -81,7 +81,7 @@ class View(QMainWindow, Ui_Dialog):
             currentObject=self.__controller.display_file.getObjectByName(objectName),
             updateObject=self.__controller.update(),
             controller = self.__controller,
-            closeModal=self.window.close,
+            closeModal=self.window.close
         )
         self.window.show()
 
@@ -100,6 +100,7 @@ class View(QMainWindow, Ui_Dialog):
             setWindowDimensions=self.__controller.setWindowDimensions,
             getObjectsFromFile=self.getObjectsFromFile,
             saveObjectsToFile=self.__controller.saveObjectsToFile,
+            window = self.__controller.window
         )
         self.__controller.file_modal = self.window
         self.window.show()

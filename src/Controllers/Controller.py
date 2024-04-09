@@ -236,8 +236,8 @@ class Controller(Observer):
             objects.append(wireframe)
 
         window = self.__window
-        w_min = Point(window.xw_min, window.yw_min)
-        w_max = Point(window.xw_max, window.yw_max)
+        w_min = Point(window.xw_min, window.yw_min, window)
+        w_max = Point(window.xw_max, window.yw_max, window)
 
         saveFile(filename=filename, objects=objects, window=[w_min, w_max])
         self.file_modal.close()
