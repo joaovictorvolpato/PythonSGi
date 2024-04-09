@@ -29,6 +29,10 @@ class Line(Drawable, Observed):
     def end(self, end:Point):
         self.__end = end
 
+    @property
+    def points(self):
+        return [self.__start, self.__end]
+
     def draw(self, painter: QtGui.QPainter,)-> None:
         start_point_x, start_point_y = viewportTransformation(
                 self.start.x, self.start.y, self.__window

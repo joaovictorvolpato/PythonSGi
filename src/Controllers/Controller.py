@@ -8,6 +8,7 @@ from src.Model.Patterns.observer import Observer
 from src.Model.Utils.ViewPortTransform import transformToWorldCoordinates
 from src.Model.Point import Point
 from src.Model.Utils.saveFile import writeObjectsToFile
+from src.Model.Drawable import Drawable
 
 class Controller(Observer):
     def __init__(self):
@@ -240,3 +241,39 @@ class Controller(Observer):
 
         writeObjectsToFile(filename=filename, objects=objects, window=[w_min, w_max])
         self.file_modal.close()
+    def _rotateObject(self, obj: Drawable, x, y, amount):
+        translation = self.__matrix_operations.build_translation_matrix(
+            -float(x),
+            -float(y),
+        )
+        rotation_matrix = self.__matrix_operations.build_rotation_matrix(
+            float(amount)
+        )
+        translate_back = self.__matrix_operations.build_translation_matrix(
+            float(x),
+            float(y),
+        )
+        matrix = self.__matrix_operations.matrix_composition(
+                    [translation, rotation_matrix, translate_back]
+                )
+        obj.transform(matrix)
+
+    def rotateWindow(self, direction: str, amount: str):
+        x, y = self.__window.getCenter()
+
+        if direction == "RIGHT":
+            amount = -float(amount)
+
+        points = self.__display_file.points
+
+        for point in points:
+            self._rotateObject(point.name, x, y, amount)
+
+        for line in self.__display_file.lines:
+            if (line.name != None):
+                self._rotateObject(line, x, y, amount)
+
+        for wireframe in self.__display_file.wireframes:
+            self._rotateObject(wireframe, x, y, amount)
+
+        self.__view_port.update()

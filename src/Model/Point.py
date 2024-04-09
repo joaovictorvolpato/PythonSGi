@@ -11,6 +11,8 @@ class Point(Drawable):
         self.__x = x
         self.__y = y
         self.__window = window
+        self.__x_normalized = x
+        self.__y_normalized = y
 
     @property
     def x(self):
@@ -27,6 +29,26 @@ class Point(Drawable):
     @y.setter
     def y(self, y:int):
         self.__y = y
+
+    @property
+    def x_normalized(self):
+        return self.__x_normalized
+    
+    @x_normalized.setter
+    def x_normalized(self, x:int):
+        self.__x_normalized = x
+
+    @property
+    def y_normalized(self):
+        return self.__y_normalized
+    
+    @y_normalized.setter
+    def y_normalized(self, y:int):
+        self.__y_normalized = y
+
+    def setNormalCoordinates(self, value_x: float, value_y: float) -> None:
+        self.__x_normalized = value_x
+        self.__y_normalized = value_y
 
     def draw(self, painter: QtGui.QPainter) -> None:
         x, y = viewportTransformation(

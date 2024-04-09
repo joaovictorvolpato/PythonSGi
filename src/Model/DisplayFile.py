@@ -28,15 +28,15 @@ class DisplayFile(SingletonClass):
         self.__confirmed_last_one = True
 
     @property
-    def points(self):
+    def points(self) -> List[Point]:
         return self.__points
 
     @property
-    def lines(self):
+    def lines(self) -> List[Line]:
         return self.__lines
 
     @property
-    def wireframes(self):
+    def wireframes(self) -> List[Wireframe]:
         return self.__wireframes
 
     def addToBuffer(self, objectType: str, buffer, windowP, object_color: str) -> None:
@@ -137,3 +137,11 @@ class DisplayFile(SingletonClass):
             self.__lines.append(obj)
         elif isinstance(obj, Wireframe):
             self.__wireframes.append(obj)
+
+    def normalizeObject(self, object):
+        x = object.x
+        y = object.y
+        yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
+        normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
+        normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
+        return (normal_x, normal_y)
