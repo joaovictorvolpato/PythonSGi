@@ -95,6 +95,8 @@ class DisplayFile(SingletonClass):
                 return
 
     def getObjects(self) -> List[Drawable]:
+        if self.__buffer is not None:
+            return self.__points + self.__lines + self.__wireframes + [self.__buffer]
         return self.__points + self.__lines + self.__wireframes
 
     def get_buffer(self):

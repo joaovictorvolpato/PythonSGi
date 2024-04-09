@@ -195,9 +195,9 @@ class Controller(Observer):
 
     def rotate(self, direction: str):
         if direction == "LEFT":
-            self.__window.rotate("LEFT")
+            self.rotateWindow(float(self.window.rotation_amount))
         elif direction == "RIGHT":
-            self.__window.rotate("RIGHT")
+            self.rotateWindow(-float(self.window.rotation_amount))
         self.__view_port.update()
 
     def _rotateObject(self, obj: Drawable, x, y, amount):
@@ -217,16 +217,13 @@ class Controller(Observer):
                 )
         obj.transform(matrix)
 
-    def rotateWindow(self, direction: str, amount: str):
+    def rotateWindow(self, amount: float):
         x, y = self.__window.getCenter()
-
-        if direction == "RIGHT":
-            amount = -float(amount)
 
         points = self.__display_file.points
 
         for point in points:
-            self._rotateObject(point.name, x, y, amount)
+            self._rotateObject(point, x, y, amount)
 
         for line in self.__display_file.lines:
             if (line.name != None):
@@ -235,4 +232,10 @@ class Controller(Observer):
         for wireframe in self.__display_file.wireframes:
             self._rotateObject(wireframe, x, y, amount)
 
-        self.__view_port.update()
+    def normalizeObject(self, object):
+        x = object.x
+        y = object.y
+        yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
+        normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
+        normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
+        return (normal_x, normal_y)
