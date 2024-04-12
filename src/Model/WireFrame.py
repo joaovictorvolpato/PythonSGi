@@ -11,7 +11,7 @@ from src.Model.Utils.ViewPortTransform import viewportTransformation
 
 class Wireframe(Drawable):
     def __init__(
-        self, pointA: Point, name: str = None, window=None, is_filled: bool = False, color:QtCore.Qt.GlobalColor = None
+        self, pointA: Point, name: str = None, window=None, color:QtCore.Qt.GlobalColor = None, is_filled: bool = False
     ):
         super().__init__(name,color)
         self.__firstPoint = pointA
@@ -44,13 +44,14 @@ class Wireframe(Drawable):
         self.__is_filled = new_status
 
     def draw(self, painter: QtGui.QPainter):
-        points = []
-        for point in self.__pointsList:
-            point.normalizePoint()
-            x, y = viewportTransformation(point.x_normalized, point.y_normalized, self.__window)
-            points.append(QPoint(x, y))
-        # painter.setPen(self.__color)
-        painter.drawPolygon(points)
+        if self.__is_filled:
+            points = []
+            for point in self.__pointsList:
+                point.normalizePoint()
+                x, y = viewportTransformation(point.x_normalized, point.y_normalized, self.__window)
+                points.append(QPoint(x, y))
+            # painter.setPen(self.__color)
+            painter.drawPolygon(points)
 
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
@@ -97,4 +98,4 @@ class Wireframe(Drawable):
     def transform(self, matrix: np.ndarray):
         for point in self.__pointsList:
             point.transform(matrix)
-        
+

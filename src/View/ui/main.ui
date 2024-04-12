@@ -256,6 +256,19 @@
     <string>Add File</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="fillObjectCheckbox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>640</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Preencher objeto</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
