@@ -107,6 +107,9 @@ class Ui_Dialog(QDialog):
         self.addFileButton = QtWidgets.QPushButton(Dialog)
         self.addFileButton.setGeometry(QtCore.QRect(50, 600, 91, 31))
         self.addFileButton.setObjectName("addFileButton")
+        self.fillObjectCheckbox = QtWidgets.QCheckBox(Dialog)
+        self.fillObjectCheckbox.setGeometry(QtCore.QRect(20, 640, 171, 41))
+        self.fillObjectCheckbox.setObjectName("fillObjectCheckbox")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -131,6 +134,7 @@ class Ui_Dialog(QDialog):
         self.rotateLeftButton.setText(_translate("Dialog", "⟲"))
         self.rotateRightButton.setText(_translate("Dialog", "⟳"))
         self.addFileButton.setText(_translate("Dialog", "Add File"))
+        self.fillObjectCheckbox.setText(_translate("Dialog", "Preencher objeto"))
 
 
     def attach_controllerUI(self, controller):
