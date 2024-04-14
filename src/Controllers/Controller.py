@@ -7,8 +7,12 @@ from src.Model.Viewport import Viewport
 from src.Model.Patterns.observer import Observer
 from src.Model.Utils.ViewPortTransform import transformToWorldCoordinates
 from src.Model.Point import Point
+from src.Model.Line import Line
 from src.Model.Utils.saveFile import saveFile
 from src.Model.Drawable import Drawable
+from src.Model.Clipper import Clipper
+from src.Model.Clipper import Strategy
+from src.Model.Clipping.LineClipper import liangBarsky
 
 class Controller(Observer):
     def __init__(self):
@@ -78,6 +82,20 @@ class Controller(Observer):
     @file_modal.setter
     def file_modal(self, file_modal):
         self.__file_modal = file_modal
+
+    def set_clipping_algorithm(self, algo: str):
+        if algo == "Cohen-Sutherland":
+            return
+        self.__display_file.selected_clipping_algorithm(liangBarsky)
+
+    def draw_borders(self):
+        line1 = Line(Point(self.window.xw_min, self.window.yw_min, self.window, color=QtCore.Qt.red), Point(self.window.xw_max, self.window.yw_min, self.window, color=QtCore.Qt.red), "border1", self.window, color=QtCore.Qt.red)
+        line2 = Line(Point(self.window.xw_max, self.window.yw_min, self.window, color=QtCore.Qt.red), Point(self.window.xw_max, self.window.yw_max, self.window, color=QtCore.Qt.red), "border2", self.window, color=QtCore.Qt.red)
+        line3 = Line(Point(self.window.xw_max, self.window.yw_max, self.window, color=QtCore.Qt.red), Point(self.window.xw_min, self.window.yw_max, self.window, color=QtCore.Qt.red), "border3",self.window, color=QtCore.Qt.red)
+        line4 = Line(Point(self.window.xw_min, self.window.yw_max, self.window, color=QtCore.Qt.red), Point(self.window.xw_min, self.window.yw_min, self.window, color=QtCore.Qt.red), "border4", self.window, color=QtCore.Qt.red)
+        self.display_file.registerBoarder(line1, line2, line3, line4)
+
+        self.view_port.update()
 
     def update(self):
         print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))

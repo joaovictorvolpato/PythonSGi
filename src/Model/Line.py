@@ -62,6 +62,10 @@ class Line(Drawable, Observed):
         x = (self.__start.x + self.__end.x) / 2
         y = (self.__start.y + self.__end.y) / 2
         return Point(x, y)
+    
+    def setNormalCoordinates(self, pointA: Point, pointB: Point) -> None:
+        self.__start = pointA
+        self.__end = pointB
 
     def transformToView(self):
         pass 

@@ -11,8 +11,8 @@ class Point(Drawable):
         self.__x = x
         self.__y = y
         self.__window = window
-        self.__x_normalized = 0
-        self.__y_normalized = 0
+        self.__x_normalized = x
+        self.__y_normalized = y
 
     @property
     def x(self):
@@ -33,6 +33,10 @@ class Point(Drawable):
     @property
     def x_normalized(self):
         return self.__x_normalized
+    
+    @property
+    def window(self):
+        return self.__window
     
     @x_normalized.setter
     def x_normalized(self, x:int):

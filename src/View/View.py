@@ -21,6 +21,7 @@ class View(QMainWindow, Ui_Dialog):
         self.__controller.attach_viewport(self.ViewPort)
         self.attach_controllerUI(self.__controller)
         self.connectSignalsSlots()
+        self.__controller.draw_borders()
 
     def connectSignalsSlots(self):
         self.pushButton_3.clicked.connect(lambda: self.navigate('UP'))

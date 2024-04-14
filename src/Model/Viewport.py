@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from src.Model.DisplayFile import DisplayFile
+from src.Model.Clipper import Clipper
 from src.Model.Patterns.observer import Observed
 
 class Viewport(QtWidgets.QWidget, Observed):
@@ -7,6 +8,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         super(QtWidgets.QWidget,self).__init__(parent)
         self.__currentColor = QtCore.Qt.red
         self.__displayFile = DisplayFile()
+        self.__clipper = Clipper()
         self.__clicked_x = 0
         self.__clicked_y = 0
 
@@ -20,7 +22,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         #self.update()
 
     def paintEvent(self, ev):
-        print("Painting viewport")
+        #print("Painting viewport")
         qp = QtGui.QPainter(self)
         qp.setRenderHint(QtGui.QPainter.Antialiasing)
 
@@ -29,18 +31,21 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
 
-        for obj in self.displayFile.getObjects():
+        self.__clipper.line_clipper = self.displayFile.selected_clipping_algorithm
+        objects_to_draw = self.__clipper.clip(self.displayFile)
+
+        for obj in objects_to_draw:
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
                 qp.setPen(pen)
             else:
+                print(obj.name)
                 color = obj.color
                 pen = QtGui.QPen(color, 3)
                 qp.setPen(pen)
                 brush = QtGui.QBrush(color)
                 qp.setBrush(brush)
             print("Drawing object")
-            print(obj)
             obj.draw(qp)
 
     @property

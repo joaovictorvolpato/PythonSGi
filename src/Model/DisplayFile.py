@@ -4,7 +4,8 @@ from src.Model.Line import Line
 from src.Model.Drawable import Drawable
 from src.Model.WireFrame import Wireframe
 
-from src.Model.Patterns.singleton import SingletonMeta
+from src.Model.Patterns.singleton import SingletonMeta      
+
 
 from typing import List
 from typing import Union
@@ -21,12 +22,13 @@ class SingletonClass(object):
 class DisplayFile(SingletonClass):
     def __init__(self):
         print("DisplayFile created")
-        print(self)
+        #print(self)
         self.__points = []
         self.__lines = []
         self.__wireframes = []
         self.__buffer = None
         self.__confirmed_last_one = True
+        self.__selected_clipping_algorithm = None
 
     @property
     def points(self) -> List[Point]:
@@ -39,6 +41,14 @@ class DisplayFile(SingletonClass):
     @property
     def wireframes(self) -> List[Wireframe]:
         return self.__wireframes
+    
+    @property
+    def selected_clipping_algorithm(self):
+        return self.__selected_clipping_algorithm
+    
+    @selected_clipping_algorithm.setter
+    def selected_clipping_algorithm(self, clipping_algorithm):
+        self.__selected_clipping_algorithm = clipping_algorithm
 
     def addToBuffer(self, objectType: str, buffer, windowP, object_color: str) -> None:
         print("Adding to buffer: ", objectType, buffer, windowP)
@@ -77,6 +87,13 @@ class DisplayFile(SingletonClass):
         elif isinstance(self.__buffer,Wireframe):
             self.__wireframes.append(self.__buffer)
             self.__buffer = None
+
+    def registerBoarder(self, line1, line2, line3, line4) -> None:
+        self.__lines.append(line1)
+        self.__lines.append(line2)
+        self.__lines.append(line3)
+        self.__lines.append(line4)
+
 
     def deleteObject(self, name: str) -> None:
         for i, point in enumerate(self.__points):
