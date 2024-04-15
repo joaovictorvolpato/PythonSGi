@@ -38,7 +38,8 @@ class View(QMainWindow, Ui_Dialog):
         self.pushButton_color.clicked.connect(lambda: self.setColorObject())
         self.rotateLeftButton.clicked.connect(lambda: self.rotate('LEFT'))
         self.rotateRightButton.clicked.connect(lambda: self.rotate('RIGHT'))
-        self.addFileButton.clicked.connect( self.openFile)
+        self.addFileButton.clicked.connect(self.openFile)
+        self.fillObjectCheckbox.stateChanged.connect(self.fillObject)
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -112,3 +113,7 @@ class View(QMainWindow, Ui_Dialog):
             self.listWidget.addItem(obj.name)
             self.__controller.display_file.addObjectFromFile(obj)
             self.update()
+
+    def fillObject(self):
+        is_filled =  self.fillObjectCheckbox.isChecked()
+        self.__controller.is_filled = is_filled

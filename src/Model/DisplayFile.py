@@ -50,7 +50,7 @@ class DisplayFile(SingletonClass):
     def selected_clipping_algorithm(self, clipping_algorithm):
         self.__selected_clipping_algorithm = clipping_algorithm
 
-    def addToBuffer(self, objectType: str, buffer, windowP, object_color: str) -> None:
+    def addToBuffer(self, objectType: str, buffer, windowP, object_color: str, is_filled = False) -> None:
         print("Adding to buffer: ", objectType, buffer, windowP)
         if objectType == "POINT":
             self.__buffer = Point(buffer.x, buffer.y, window=windowP, color = object_color)
@@ -73,7 +73,7 @@ class DisplayFile(SingletonClass):
                 self.__buffer.addPoint(buffer)
             else:
                 print(object_color)
-                self.__buffer = Wireframe(buffer, window=windowP, color = object_color)
+                self.__buffer = Wireframe(buffer, window=windowP,color = object_color, is_filled=is_filled)
 
     def registerObject(self, currentType: str, objectName: str) -> None:
 

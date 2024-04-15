@@ -25,6 +25,7 @@ class Controller(Observer):
         self.__object_color = None
         self.__objectsList = []
         self.__file_modal = None
+        self.__is_filled = False
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
@@ -96,6 +97,13 @@ class Controller(Observer):
         self.display_file.registerBoarder(line1, line2, line3, line4)
 
         self.view_port.update()
+    @property
+    def is_filled(self):
+        return self.__is_filled
+
+    @is_filled.setter
+    def is_filled(self, isFilled: bool):
+        self.__is_filled = isFilled
 
     def update(self):
         print("Controller updated, draw {} at {} {}".format(self.__selected_object, self.__view_port.clicked_x, self.__view_port.clicked_y))
@@ -132,7 +140,8 @@ class Controller(Observer):
                 "WIREFRAME",
                 point,
                 self.window,
-                self.object_color
+                self.object_color,
+                self.is_filled
             )
         self.__view_port.update()
 

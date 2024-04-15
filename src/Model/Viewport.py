@@ -39,8 +39,8 @@ class Viewport(QtWidgets.QWidget, Observed):
                 pen = QtGui.QPen(self.__currentColor, 3)
                 qp.setPen(pen)
             else:
-                print(obj.name)
-                color = obj.color
+                color = obj.color if obj.color is not None else QtCore.Qt.GlobalColor.black
+
                 pen = QtGui.QPen(color, 3)
                 qp.setPen(pen)
                 brush = QtGui.QBrush(color)
