@@ -32,7 +32,6 @@ class Controller(Observer):
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
         self.__view_port = view_port
-        self.__view_port.__window = self.__window
 
     @property
     def display_file(self):

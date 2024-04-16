@@ -6,7 +6,9 @@ from src.Model.Window import Window
 
 
 class WireframeClipper():
-    def clip(self, wireframe: Wireframe, window) -> Wireframe:
+    def clip(self, wireframe: Wireframe) -> Wireframe:
+
+
         vertices = wireframe.points
 
         if all([outside_window(p) for p in vertices]):
@@ -21,7 +23,7 @@ class WireframeClipper():
             p0 = vertices[index]
             p1 = vertices[(index + 1) % number_points]
 
-            linha = cohen_sutherland(Line(p0, p1), window, Point(1, 1, window), Point(-1, -1, window))
+            linha = cohen_sutherland(Line(p0, p1), Point(1, 1, window=Window()), Point(-1, -1, window=Window()))
             if linha != None:
                 if linha.end != p1:
                     point_index = object_vertices.index((p0, 0)) + 1
@@ -97,7 +99,6 @@ def outside_window(point):
 
 def cohen_sutherland(
     line: Line,
-    window: Window,
     window_max: Point,
     window_min: Point,
 ) -> Line | None:
