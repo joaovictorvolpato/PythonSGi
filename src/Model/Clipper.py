@@ -47,7 +47,7 @@ class Clipper():
 
         self._line_clipper = line_clipper
 
-    def clip(self, display_file:DisplayFile) -> List[Drawable]:
+    def clip(self, display_file:DisplayFile, window) -> List[Drawable]:
         __inside_window = []
 
         print("Called clip")
@@ -59,8 +59,9 @@ class Clipper():
             if clipped_line is not None:
                 __inside_window.append(clipped_line)
 
-        #ret = self._wireframe_clipper.clip(display_file)
-        #__inside_window.extend(ret)
+        for wireframe in display_file.wireframes:
+            clipped_wireframe = self._wireframe_clipper.clip(wireframe, window)
+            if clipped_wireframe is not None:
+                __inside_window.append(clipped_wireframe)
 
         return __inside_window
-        

@@ -12,6 +12,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         self.__clipper = Clipper()
         self.__clicked_x = 0
         self.__clicked_y = 0
+        self.__window = None
 
     def mousePressEvent(self, event):
         #print("Current type: ", self.currentSelectedType)
@@ -33,13 +34,13 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setBrush(brush)
 
         self.__clipper.line_clipper = self.displayFile.selected_clipping_algorithm
-        objects_to_draw = self.__clipper.clip(self.displayFile)
+        objects_to_draw = self.__clipper.clip(self.displayFile , self.__window)
 
         print(objects_to_draw)
 
         for obj in objects_to_draw:
             #if not isinstance(obj, Line):
-                #print(obj.window.x_min, obj.window.y_min, obj.window.x_max, obj.window.y_max)              
+                #print(obj.window.x_min, obj.window.y_min, obj.window.x_max, obj.window.y_max)
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
                 qp.setPen(pen)
@@ -56,7 +57,7 @@ class Viewport(QtWidgets.QWidget, Observed):
         _buffer = self.displayFile.get_buffer()
         if _buffer is None:
             return
-        
+
         pen = QtGui.QPen(self.__currentColor, 3)
         qp.setPen(pen)
         _buffer.draw(qp)

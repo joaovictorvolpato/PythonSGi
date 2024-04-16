@@ -40,6 +40,7 @@ class View(QMainWindow, Ui_Dialog):
         self.rotateRightButton.clicked.connect(lambda: self.rotate('RIGHT'))
         self.addFileButton.clicked.connect(self.openFile)
         self.fillObjectCheckbox.stateChanged.connect(self.fillObject)
+        self.selectClipping.currentIndexChanged.connect(self.changeClipper)
 
     def navigate(self, direction: str):
         self.__controller.navigate(direction)
@@ -117,3 +118,12 @@ class View(QMainWindow, Ui_Dialog):
     def fillObject(self):
         is_filled =  self.fillObjectCheckbox.isChecked()
         self.__controller.is_filled = is_filled
+
+    def changeClipper(self, index):
+        print(index)
+        switcher = {
+            0: "CohenSutherland",
+            1: "LiangBarsky"
+        }
+
+        self.__controller.selected_clipping_algorithm = switcher[index]

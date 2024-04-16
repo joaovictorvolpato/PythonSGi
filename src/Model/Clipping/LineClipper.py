@@ -25,15 +25,15 @@ class CohenSutherland(Strategy):
         window_max = Point(windowobj.xw_max, windowobj.yw_max, window=Window())
         window_min = Point(windowobj.xw_min, windowobj.yw_min, window=Window())
 
-        window_min.x = window_min.x + boarder        
+        window_min.x = window_min.x + boarder
         window_min.y = window_min.y + boarder
-        
+
         window_min.normalizePoint()
         window_max.x = window_max.x - boarder
         window_max.y = window_max.y - boarder
         window_max.normalizePoint()
         window = {"xw_min": window_min.x_normalized, "yw_min": window_min.y_normalized, "xw_max": window_max.x_normalized, "yw_max": window_max.y_normalized}
-        
+
         point1, point2 = line.points[0], line.points[1]
         point1.normalizePoint()
         point2.normalizePoint()
@@ -46,7 +46,7 @@ class CohenSutherland(Strategy):
                 return line
             elif (rc_point1 & rc_point2) != 0:
                 return None
-            
+
             else:
                 newX, newY = 0, 0
 
@@ -122,9 +122,9 @@ class LiangBarsky(Strategy):
         window_max = Point(windowobj.xw_max, windowobj.yw_max, window=Window())
         window_min = Point(windowobj.xw_min, windowobj.yw_min, window=Window())
 
-        window_min.x = window_min.x + boarder        
+        window_min.x = window_min.x + boarder
         window_min.y = window_min.y + boarder
-        
+
         window_min.normalizePoint()
         window_max.x = window_max.x - boarder
         window_max.y = window_max.y - boarder
@@ -161,6 +161,7 @@ class LiangBarsky(Strategy):
 
         line.setNormalCoordinates(Point(x1, y1,window=Window()), Point(x2, y2,window=Window()))
         return line
-    
-    
+
+
 liangBarsky = LiangBarsky()
+cohenSutherland = CohenSutherland()

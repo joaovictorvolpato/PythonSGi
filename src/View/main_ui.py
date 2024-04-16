@@ -16,7 +16,7 @@ from src.Model.Viewport import Viewport
 class Ui_Dialog(QDialog):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1015, 706)
+        Dialog.resize(1015, 744)
         self.listWidget = QtWidgets.QListWidget(Dialog)
         self.listWidget.setGeometry(QtCore.QRect(11, 11, 191, 141))
         self.listWidget.setObjectName("listWidget")
@@ -110,6 +110,11 @@ class Ui_Dialog(QDialog):
         self.fillObjectCheckbox = QtWidgets.QCheckBox(Dialog)
         self.fillObjectCheckbox.setGeometry(QtCore.QRect(20, 640, 171, 41))
         self.fillObjectCheckbox.setObjectName("fillObjectCheckbox")
+        self.selectClipping = QtWidgets.QComboBox(Dialog)
+        self.selectClipping.setGeometry(QtCore.QRect(20, 680, 161, 24))
+        self.selectClipping.setObjectName("selectClipping")
+        self.selectClipping.addItem("")
+        self.selectClipping.addItem("")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -135,6 +140,8 @@ class Ui_Dialog(QDialog):
         self.rotateRightButton.setText(_translate("Dialog", "⟳"))
         self.addFileButton.setText(_translate("Dialog", "Add File"))
         self.fillObjectCheckbox.setText(_translate("Dialog", "Preencher objeto"))
+        self.selectClipping.setItemText(0, _translate("Dialog", "Cohen Sutherland"))
+        self.selectClipping.setItemText(1, _translate("Dialog", "Liang Barsky"))
 
 
     def attach_controllerUI(self, controller):

@@ -1,6 +1,6 @@
 from src.Model.Utils import consts
 
-from src.Model.Patterns.singleton import Singleton    
+from src.Model.Patterns.singleton import Singleton
 
 
 class Window(Singleton):
@@ -14,8 +14,8 @@ class Window(Singleton):
             self.step = 10  # amount of pixels
             self.rotation_zoom_percentage = 10
             self.rotation_amount = 10
-            self.windowInstance = self   
-        
+            self.windowInstance = self
+
 
     @property
     def xw_min(self):

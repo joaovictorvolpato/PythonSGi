@@ -33,11 +33,11 @@ class Point(Drawable):
     @property
     def x_normalized(self):
         return self.__x_normalized
-    
+
     @property
     def window(self):
         return self.__window
-    
+
     @x_normalized.setter
     def x_normalized(self, x:int):
         self.__x_normalized = x
@@ -45,7 +45,7 @@ class Point(Drawable):
     @property
     def y_normalized(self):
         return self.__y_normalized
-    
+
     @y_normalized.setter
     def y_normalized(self, y:int):
         self.__y_normalized = y
@@ -67,7 +67,7 @@ class Point(Drawable):
         self.__x_normalized = (self.x - xw_min) / (xw_max - xw_min) * 2 - 1
         self.__y_normalized = (self.y - yw_min) / (yw_max - yw_min) * 2 - 1
         #print("NORMALIZED POINT", self.__x_normalized, self.__y_normalized)
-        
+
 
     def transform(self, matrix: np.ndarray):
         mult = np.dot(np.array([self.__x, self.__y, 1]), matrix)

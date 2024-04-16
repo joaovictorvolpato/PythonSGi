@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1015</width>
-    <height>706</height>
+    <height>744</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -268,6 +268,26 @@
    <property name="text">
     <string>Preencher objeto</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="selectClipping">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>680</y>
+     <width>161</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Cohen Sutherland</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Liang Barsky</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

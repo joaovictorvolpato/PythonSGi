@@ -13,6 +13,7 @@ from src.Model.Drawable import Drawable
 from src.Model.Clipper import Clipper
 from src.Model.Clipper import Strategy
 from src.Model.Clipping.LineClipper import liangBarsky
+from src.Model.Clipping.LineClipper import cohenSutherland
 
 class Controller(Observer):
     def __init__(self):
@@ -26,10 +27,12 @@ class Controller(Observer):
         self.__objectsList = []
         self.__file_modal = None
         self.__is_filled = False
+        self.__selected_clipping_algorithm = None
 
     def attach_viewport(self, view_port: Viewport):
         print("Controller viewport attached to controller")
         self.__view_port = view_port
+        self.__view_port.__window = self.__window
 
     @property
     def display_file(self):
@@ -84,8 +87,18 @@ class Controller(Observer):
     def file_modal(self, file_modal):
         self.__file_modal = file_modal
 
-    def set_clipping_algorithm(self, algo: str):
-        if algo == "Cohen-Sutherland":
+    @property
+    def selected_clipping_algorithm(self):
+        return self.__selected_clipping_algorithm
+
+    @selected_clipping_algorithm.setter
+    def selected_clipping_algorithm(self, clipping_algorithm):
+        self.__selected_clipping_algorithm = clipping_algorithm
+
+    def set_clipping_algorithm(self, algorithm: str):
+        print(algorithm)
+        if algorithm == "CohenSutherland":
+            self.__display_file.selected_clipping_algorithm(cohenSutherland)
             return
         self.__display_file.selected_clipping_algorithm(liangBarsky)
 
@@ -169,7 +182,7 @@ class Controller(Observer):
 
     def navigate(self, direction: str):
         #self.updateBordersUponWindowChange(self.__window)
-        self.__window.navigate(direction)        
+        self.__window.navigate(direction)
         self.__view_port.update()
 
     def zoom(self, direction: str):
