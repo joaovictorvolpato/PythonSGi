@@ -16,7 +16,7 @@ class Clipper():
     The Context defines the interface of interest to clients.
     """
 
-    def __init__(self, strategy = LiangBarsky(), wireframe_clipper = WireframeClipper(), point_clipper = PointClipper()) -> None:
+    def __init__(self, strategy = CohenSutherland(), wireframe_clipper = WireframeClipper(), point_clipper = PointClipper()) -> None:
         """
         Usually, the Context accepts a strategy through the constructor, but
         also provides a setter to change it at runtime.

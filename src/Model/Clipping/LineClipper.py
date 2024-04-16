@@ -35,6 +35,8 @@ class CohenSutherland(Strategy):
         window = {"xw_min": window_min.x_normalized, "yw_min": window_min.y_normalized, "xw_max": window_max.x_normalized, "yw_max": window_max.y_normalized}
         
         point1, point2 = line.points[0], line.points[1]
+        point1.normalizePoint()
+        point2.normalizePoint()
         rc_point1 = self._getRegionCode(point1, window)
         rc_point2 = self._getRegionCode(point2, window)
 
