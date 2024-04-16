@@ -62,10 +62,11 @@ class Point(Drawable):
         painter.drawEllipse(x, y, 5, 5)
 
     def normalizePoint(self):
-        print("NORMALIZED POINT", self.__x_normalized, self.__y_normalized)
         yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
+        #print(self.x, self.y)
         self.__x_normalized = (self.x - xw_min) / (xw_max - xw_min) * 2 - 1
         self.__y_normalized = (self.y - yw_min) / (yw_max - yw_min) * 2 - 1
+        #print("NORMALIZED POINT", self.__x_normalized, self.__y_normalized)
         
 
     def transform(self, matrix: np.ndarray):

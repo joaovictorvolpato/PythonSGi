@@ -97,6 +97,25 @@ class Controller(Observer):
         self.display_file.registerBoarder(line1, line2, line3, line4)
 
         self.view_port.update()
+
+    def updateBordersUponWindowChange(self, window: Window) -> None:
+        for line in self.display_file.lines:
+            if line.name == "border1":
+                line.points[0] = Point(window.xw_min, window.yw_min, window)
+                line.points[1] = Point(window.xw_max, window.yw_min, window)
+                print("boarder updated")
+            elif line.name == "border2":
+                line.points[0] = Point(window.xw_max, window.yw_min, window)
+                line.points[1] = Point(window.xw_max, window.yw_max, window)
+                print("boarder updated")
+            elif line.name == "border3":
+                line.points[0] = Point(window.xw_max, window.yw_max, window)
+                line.points[1] = Point(window.xw_min, window.yw_max, window)
+                print("boarder updated")
+            elif line.name == "border4":
+                line.points[0] = Point(window.xw_min, window.yw_max, window)
+                line.points[1] = Point(window.xw_min, window.yw_min, window)
+                print("boarder updated")
     @property
     def is_filled(self):
         return self.__is_filled
@@ -112,6 +131,9 @@ class Controller(Observer):
         )
 
         point = Point(x, y, self.window, self.object_color)
+
+        print("WINDOW OBJECT MEMORY ADDRESS IN CONTROLLER")
+        print(self.window)
 
         print("Point: ", point.x, point.y)
 
@@ -146,10 +168,12 @@ class Controller(Observer):
         self.__view_port.update()
 
     def navigate(self, direction: str):
-        self.__window.navigate(direction)
+        #self.updateBordersUponWindowChange(self.__window)
+        self.__window.navigate(direction)        
         self.__view_port.update()
 
     def zoom(self, direction: str):
+        #self.updateBordersUponWindowChange(self.__window)
         self.__window.zoom(direction)
         self.__view_port.update()
 
@@ -244,6 +268,7 @@ class Controller(Observer):
             self.rotateWindow(float(self.window.rotation_amount))
         elif direction == "RIGHT":
             self.rotateWindow(-float(self.window.rotation_amount))
+        self.updateBordersUponWindowChange(self.__window)
         self.__view_port.update()
 
     def setWindowDimensions(self, min, max):

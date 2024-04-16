@@ -1,16 +1,21 @@
 from src.Model.Utils import consts
 
+from src.Model.Patterns.singleton import Singleton    
 
-class Window:
+
+class Window(Singleton):
     def __init__(self):
-        self.xw_min = consts.VIEWPORT_X_MIN
-        self.yw_min = consts.VIEWPORT_Y_MIN
-        self.xw_max = consts.VIEWPORT_X_MAX
-        self.yw_max = consts.VIEWPORT_Y_MAX
+        if not super().created:
+            self.xw_min = consts.VIEWPORT_X_MIN
+            self.yw_min = consts.VIEWPORT_Y_MIN
+            self.xw_max = consts.VIEWPORT_X_MAX
+            self.yw_max = consts.VIEWPORT_Y_MAX
 
-        self.step = 10  # amount of pixels
-        self.rotation_zoom_percentage = 10
-        self.rotation_amount = 10
+            self.step = 10  # amount of pixels
+            self.rotation_zoom_percentage = 10
+            self.rotation_amount = 10
+            self.windowInstance = self   
+        
 
     @property
     def xw_min(self):

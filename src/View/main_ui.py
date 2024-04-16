@@ -42,7 +42,7 @@ class Ui_Dialog(QDialog):
         self.label_2.setGeometry(QtCore.QRect(50, 310, 91, 20))
         self.label_2.setObjectName("label_2")
         self.ViewPort = Viewport(Dialog)
-        self.ViewPort.setGeometry(QtCore.QRect(225, 21, 761, 581))
+        self.ViewPort.setGeometry(QtCore.QRect(225, 21, 761, 481))
         self.ViewPort.setMouseTracking(True)
         self.ViewPort.setObjectName("ViewPort")
         self.ViewPort.setAttribute(QtCore.Qt.WA_StyledBackground, True)

@@ -4,19 +4,11 @@ from src.Model.Line import Line
 from src.Model.Drawable import Drawable
 from src.Model.WireFrame import Wireframe
 
-from src.Model.Patterns.singleton import SingletonMeta      
+from src.Model.Patterns.singleton import SingletonClass      
 
 
 from typing import List
 from typing import Union
-
-
-
-class SingletonClass(object):
-  def __new__(cls):
-    if not hasattr(cls, 'instance'):
-      cls.instance = super(SingletonClass, cls).__new__(cls)
-    return cls.instance
 
 
 class DisplayFile(SingletonClass):
@@ -93,7 +85,6 @@ class DisplayFile(SingletonClass):
         self.__lines.append(line2)
         self.__lines.append(line3)
         self.__lines.append(line4)
-
 
     def deleteObject(self, name: str) -> None:
         for i, point in enumerate(self.__points):

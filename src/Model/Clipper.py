@@ -7,6 +7,8 @@ from src.Model.Patterns.strategy import Strategy
 from src.Model.Clipping.PointClipper import PointClipper
 from src.Model.Clipping.WireframeClipper import WireframeClipper
 from src.Model.Clipping.LineClipper import CohenSutherland, LiangBarsky
+from src.Model.Window import Window
+from copy import deepcopy
 
 
 class Clipper():
@@ -14,7 +16,7 @@ class Clipper():
     The Context defines the interface of interest to clients.
     """
 
-    def __init__(self, strategy = CohenSutherland(), wireframe_clipper = WireframeClipper(), point_clipper = PointClipper()) -> None:
+    def __init__(self, strategy = LiangBarsky(), wireframe_clipper = WireframeClipper(), point_clipper = PointClipper()) -> None:
         """
         Usually, the Context accepts a strategy through the constructor, but
         also provides a setter to change it at runtime.
@@ -48,11 +50,12 @@ class Clipper():
     def clip(self, display_file:DisplayFile) -> List[Drawable]:
         __inside_window = []
 
+        print("Called clip")
         clipped_points = self._point_clipper.clip(display_file)
         __inside_window.extend(clipped_points)
 
         for line in display_file.lines:
-            clipped_line = self.line_clipper.clipping_algorithm(line)
+            clipped_line = self.line_clipper.clipping_algorithm(deepcopy(line), windowobj = Window())
             if clipped_line is not None:
                 __inside_window.append(clipped_line)
 
