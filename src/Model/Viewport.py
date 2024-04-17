@@ -14,16 +14,11 @@ class Viewport(QtWidgets.QWidget, Observed):
         self.__clicked_y = 0
 
     def mousePressEvent(self, event):
-        #print("Current type: ", self.currentSelectedType)
-        print("Mouse pressed at: ", event.pos().x(), event.pos().y())
         self.__clicked_x = event.pos().x()
         self.__clicked_y = event.pos().y()
-        print("Clicked at: ", self.__clicked_x, self.__clicked_y)
         self.notify()
-        #self.update()
 
     def paintEvent(self, ev):
-        #print("Painting viewport")
         qp = QtGui.QPainter(self)
         qp.setRenderHint(QtGui.QPainter.Antialiasing)
 
@@ -32,14 +27,12 @@ class Viewport(QtWidgets.QWidget, Observed):
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
 
-        self.__clipper.line_clipper = self.displayFile.selected_clipping_algorithm
+        #self.__clipper.line_clipper = self.displayFile.selected_clipping_algorithm
         objects_to_draw = self.__clipper.clip(self.displayFile)
 
         print(objects_to_draw)
 
         for obj in objects_to_draw:
-            #if not isinstance(obj, Line):
-                #print(obj.window.x_min, obj.window.y_min, obj.window.x_max, obj.window.y_max)
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
                 qp.setPen(pen)

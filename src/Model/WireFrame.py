@@ -11,13 +11,14 @@ from src.Model.Utils.ViewPortTransform import viewportTransformation
 
 class Wireframe(Drawable):
     def __init__(
-        self, pointA: Point, name: str = None, window=None, color:QtCore.Qt.GlobalColor = None, is_filled: bool = False
+        self, pointA: Point, name: str = None, window=None, color:QtCore.Qt.GlobalColor = None, is_filled: bool = False, points: list = []
     ):
         super().__init__(name,color)
         self.__firstPoint = pointA
         self.__pointsList = [pointA]
         self.__window = window
         self.__is_filled = is_filled
+
 
     @property
     def window(self):

@@ -68,13 +68,21 @@ class Point(Drawable):
         self.__y_normalized = (self.y - yw_min) / (yw_max - yw_min) * 2 - 1
         #print("NORMALIZED POINT", self.__x_normalized, self.__y_normalized)
 
+    def unnormalizePoint(self):
+        yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
+        
+        # Unnormalize x coordinate
+        self.x = (self.x_normalized + 1) / 2 * (xw_max - xw_min) + xw_min
+        
+        # Unnormalize y coordinate
+        self.y = (self.y_normalized + 1) / 2 * (yw_max - yw_min) + yw_min
 
     def transform(self, matrix: np.ndarray):
         mult = np.dot(np.array([self.__x, self.__y, 1]), matrix)
         self.__x = mult.item(0)
         self.__y = mult.item(1)
 
-    def getCenter(self):
+    def getCenter(self):    
         return self
 
     def transformToView(self):

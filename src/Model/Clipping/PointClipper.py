@@ -9,11 +9,11 @@ class PointClipper():
     def clip(self, display_file: DisplayFile) -> List[Drawable]:
         __inside_window = []
 
-        print("Called point clipper")
+        #print("Called point clipper")
         for point in display_file.points:
             if self.checkBoundaries(point, point.window):
-                print("WINDOW OBJECT MEMORY ADDRESS IN CLIPPER")
-                print(point.window)
+                #print("WINDOW OBJECT MEMORY ADDRESS IN CLIPPER")
+                #print(point.window)
                 __inside_window.append(point)
 
         return __inside_window

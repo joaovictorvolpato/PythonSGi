@@ -51,6 +51,7 @@ class Controller(Observer):
 
     @selected_object.setter
     def selected_object(self, selected_object: str):
+        self.__display_file.__buffer = None
         self.__selected_object = selected_object
 
     @property
@@ -93,13 +94,14 @@ class Controller(Observer):
     @selected_clipping_algorithm.setter
     def selected_clipping_algorithm(self, clipping_algorithm):
         self.__selected_clipping_algorithm = clipping_algorithm
+        self.set_clipping_algorithm(clipping_algorithm)
 
     def set_clipping_algorithm(self, algorithm: str):
-        print(algorithm)
+        print(self.display_file)
         if algorithm == "CohenSutherland":
-            self.__display_file.selected_clipping_algorithm(cohenSutherland)
+            self.display_file.selected_clipping_algorithm = cohenSutherland
             return
-        self.__display_file.selected_clipping_algorithm(liangBarsky)
+        self.display_file.selected_clipping_algorithm = liangBarsky 
 
     def draw_borders(self):
         line1 = Line(Point(self.window.xw_min, self.window.yw_min, self.window, color=QtCore.Qt.red), Point(self.window.xw_max, self.window.yw_min, self.window, color=QtCore.Qt.red), "border1", self.window, color=QtCore.Qt.red)

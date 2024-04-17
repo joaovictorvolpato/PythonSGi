@@ -45,8 +45,8 @@ class Line(Drawable, Observed):
             )
         
         #print points before and after tranformation
-        print("BEFORE TRANSFORMING",self.start.x, self.start.y, self.end.x, self.end.y)
-        print("AFTER TRANSFORMING",start_point_x, start_point_y, end_point_x, end_point_y)
+        #print("BEFORE TRANSFORMING",self.start.x, self.start.y, self.end.x, self.end.y)
+        #print("AFTER TRANSFORMING",start_point_x, start_point_y, end_point_x, end_point_y)
 
         painter.drawLine(start_point_x, start_point_y, end_point_x, end_point_y)
 

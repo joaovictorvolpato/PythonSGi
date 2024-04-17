@@ -43,21 +43,16 @@ class DisplayFile(SingletonClass):
         self.__selected_clipping_algorithm = clipping_algorithm
 
     def addToBuffer(self, objectType: str, buffer, windowP, object_color: str, is_filled = False) -> None:
-        print("Adding to buffer: ", objectType, buffer, windowP)
         if objectType == "POINT":
             self.__buffer = Point(buffer.x, buffer.y, window=windowP, color = object_color)
             print(self.__confirmed_last_one)
             if self.__confirmed_last_one:
-                #self.registerObject("POINT", objectName, "black")
                 self.__confirmed_last_one = False
 
         if objectType == "LINE":
             if self.__buffer is not None:
-                print("!!!!!!!!!!!!!!!!!Adding end point to line!!!!!!!!!!!!!")
                 self.__buffer.end  = buffer
-                #self.registerObject("LINE", objectName, "black")
             else:
-                print("Creating new line")
                 self.__buffer = Line(buffer, window=windowP, color = object_color)
 
         if objectType == "WIREFRAME":
