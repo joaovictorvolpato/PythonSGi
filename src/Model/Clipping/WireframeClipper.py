@@ -22,7 +22,7 @@ class WeilerAtherton(Strategy):
             return None
         elif all([not self.outside_window(p) for p in vertices]):
             return wireframe
-        
+
         _boarder = 20
         window_max = Point(windowobj.xw_max, windowobj.yw_max, window=Window())
         window_min = Point(windowobj.xw_min, windowobj.yw_min, window=Window())
@@ -75,7 +75,7 @@ class WeilerAtherton(Strategy):
                     inside_points.append(p)
                     if c != 0:
                         break
-                
+
                 last_point = new_points[-1]
                 point_index = window_vertices.index(last_point)
                 window_len = len(window_vertices)
@@ -184,12 +184,14 @@ class SutherlandHodgman(Strategy):
         first_point = Point(output_list[0][0], output_list[0][1], window=windowobj)
         first_point.unnormalizePoint()
         wireframeclipped = Wireframe(first_point)
+        wireframeclipped.is_filled = polygon.is_filled
+        wireframeclipped.color = polygon.color
         for i in range(1, len(output_list)):
             point = Point(output_list[i][0], output_list[i][1], window=windowobj)
             point.unnormalizePoint()
             wireframeclipped.addPoint(point)
 
         return wireframeclipped
-    
+
     def clip(self, wireframe: Wireframe, windowobj: Window) -> Wireframe:
         return self.clipping_algorithm(wireframe, windowobj)
