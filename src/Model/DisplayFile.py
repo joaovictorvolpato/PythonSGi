@@ -84,6 +84,7 @@ class DisplayFile(SingletonClass):
                     window=Window(),
                 )
             )
+            self.__buffer = None
 
         if isinstance(self.__buffer,Point):
             self.__points.append(self.__buffer)

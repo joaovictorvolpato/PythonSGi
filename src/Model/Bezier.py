@@ -2,6 +2,8 @@ import numpy as np
 
 from PyQt5.QtGui import QColor, QPainter
 
+from typing import List
+
 from src.Model.Drawable import Drawable
 from src.Model.Point import Point
 
@@ -12,7 +14,7 @@ from src.Model.Clipping.CurveClipper import curveClip
 
 class Bezier(Drawable):
     def __init__(
-        self,coordinates: list[Point], color: QColor = None, window=None, name: str = None,
+        self,coordinates: List[Point], color: QColor = None, window=None, name: str = None,
     ):
         super().__init__(name, color)
 
@@ -28,11 +30,11 @@ class Bezier(Drawable):
         self.__curve_points = []
 
     @property
-    def coordinates(self) -> list[Point]:
+    def coordinates(self) -> List[Point]:
         return self.__coordinates
 
     @coordinates.setter
-    def coordinates(self, coordinates: list[Point]) -> None:
+    def coordinates(self, coordinates: List[Point]) -> None:
         self.__coordinates = coordinates
 
     def draw(self, painter: QPainter) -> None:
@@ -75,9 +77,9 @@ class Bezier(Drawable):
         normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
         return (normal_x, normal_y)
 
-    def transform(self, matrix: np.matrix) -> None:
+    def transform(self, matrix: np.ndarray) -> None:
         for point in self.__coordinates:
-            mult = np.matmul(np.array([point.x, point.y, 1]), matrix)
+            mult = np.dot(np.array([point.x, point.y, 1]), matrix)
             point.x = mult.item(0)
             point.y = mult.item(1)
 
