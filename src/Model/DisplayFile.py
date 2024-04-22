@@ -1,10 +1,11 @@
 from src.Model.Window import Window
 from src.Model.Point import Point
 from src.Model.Line import Line
+from src.Model.Bezier import Bezier
 from src.Model.Drawable import Drawable
 from src.Model.WireFrame import Wireframe
 
-from src.Model.Patterns.singleton import SingletonClass      
+from src.Model.Patterns.singleton import SingletonClass
 
 
 from typing import List
@@ -18,6 +19,7 @@ class DisplayFile(SingletonClass):
         self.__points = []
         self.__lines = []
         self.__wireframes = []
+        self.__curves = []
         self.__buffer = None
         self.__confirmed_last_one = True
         self.__selected_clipping_algorithm = None
@@ -33,11 +35,15 @@ class DisplayFile(SingletonClass):
     @property
     def wireframes(self) -> List[Wireframe]:
         return self.__wireframes
-    
+
+    @property
+    def curves(self) -> List[Bezier]:
+        return self.__curves
+
     @property
     def selected_clipping_algorithm(self):
         return self.__selected_clipping_algorithm
-    
+
     @selected_clipping_algorithm.setter
     def selected_clipping_algorithm(self, clipping_algorithm):
         self.__selected_clipping_algorithm = clipping_algorithm
@@ -62,7 +68,22 @@ class DisplayFile(SingletonClass):
                 print(object_color)
                 self.__buffer = Wireframe(buffer, window=windowP,color = object_color, is_filled=is_filled)
 
-    def registerObject(self, currentType: str, objectName: str) -> None:
+        if objectType == "BEZIER":
+            if self.__buffer is not None:
+                self.__buffer.append(buffer)
+            else:
+                self.__buffer = [buffer]
+
+    def registerObject(self, currentType: str, objectName: str, object_color) -> None:
+        if isinstance(self.__buffer, list):
+            self.__curves.append(
+                Bezier(
+                    name=objectName,
+                    coordinates=self.__buffer,
+                    color=object_color,
+                    window=Window(),
+                )
+            )
 
         if isinstance(self.__buffer,Point):
             self.__points.append(self.__buffer)
@@ -98,6 +119,11 @@ class DisplayFile(SingletonClass):
                 del self.__wireframes[i]
                 return
 
+        for i, curve in enumerate(self.__curves):
+            if curve.name == name:
+                del self.__curves[i]
+                return
+
     def getObjects(self) -> List[Drawable]:
         if self.__buffer is not None:
             return self.__points + self.__lines + self.__wireframes + [self.__buffer]
@@ -109,18 +135,20 @@ class DisplayFile(SingletonClass):
     def confirmLastObject(self) -> None:
         self.__confirmed_last_one = True
 
-    def setObjectName(self, objectName: str) -> None:
+    def setObjectName(self, objectName: str, object_color) -> None:
         if self.__buffer is None:
             return
 
-        self.__buffer.name = objectName
-        self.registerObject(self.__buffer, objectName)
+        if not isinstance(self.__buffer, list):
+            self.__buffer.name = objectName
 
-    def tryRegistering(self, currentType: str, objectName: str) -> str:
+        self.registerObject(self.__buffer, objectName, object_color)
+
+    def tryRegistering(self, currentType: str, objectName: str, object_color) -> str:
         if self.__buffer is None:
             return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
 
-        self.setObjectName(objectName)
+        self.setObjectName(objectName, object_color)
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
     def getObjectByName(self, name: str):
@@ -135,6 +163,10 @@ class DisplayFile(SingletonClass):
         for wireframe in self.__wireframes:
             if wireframe.name == name:
                 return wireframe
+
+        for curve in self.__curves:
+            if curve.name == name:
+                return curve
 
     def addObjectFromFile(self, obj: Union[Point,Line,Wireframe]):
         if isinstance(obj, Point):

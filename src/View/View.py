@@ -46,11 +46,11 @@ class View(QMainWindow, Ui_Dialog):
         self.__controller.navigate(direction)
 
     def changeObjectType(self, index):
-        # Implemente a lógica para mudar o tipo de objeto
         switcher = {
             0: "Point",
             1: "Line",
-            2: "Wireframe"
+            2: "Wireframe",
+            3: "Bezier"
         }
 
         self.__controller.selected_object = switcher[index]
@@ -69,7 +69,7 @@ class View(QMainWindow, Ui_Dialog):
 
     def confirmObject(self, name: str):
         dict = self.__controller.createObject()
-        if dict["status"] == True:
+        if dict["status"] is True:
             self.listWidget.addItem(name)
             self.lineEdit.clear()
 

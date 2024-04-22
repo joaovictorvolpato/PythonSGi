@@ -1,5 +1,4 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
 from typing import List
 from src.Model.DisplayFile import DisplayFile
 from src.Model.Drawable import Drawable
@@ -56,7 +55,7 @@ class Clipper():
         """
 
         return self._wireframe_clipper
-    
+
     @wireframe_clipper.setter
     def wireframe_clipper(self, wireframe_clipper: Strategy) -> None:
         """
@@ -83,5 +82,8 @@ class Clipper():
             clipped_wireframe = self._wireframe_clipper.clipping_algorithm(deepcopy(wireframe), windowobj=Window())
             if clipped_wireframe is not None:
                 __inside_window.append(clipped_wireframe)
+
+        for curve in display_file.curves:
+            __inside_window.append(curve)
 
         return __inside_window

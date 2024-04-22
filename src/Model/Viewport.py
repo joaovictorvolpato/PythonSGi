@@ -2,8 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from src.Model.DisplayFile import DisplayFile
 from src.Model.Clipper import Clipper
 from src.Model.Patterns.observer import Observed
-from src.Model.Line import Line
-
 class Viewport(QtWidgets.QWidget, Observed):
     def __init__(self, parent=None):
         super(QtWidgets.QWidget,self).__init__(parent)
@@ -30,8 +28,6 @@ class Viewport(QtWidgets.QWidget, Observed):
         #self.__clipper.line_clipper = self.displayFile.selected_clipping_algorithm
         objects_to_draw = self.__clipper.clip(self.displayFile)
 
-        print(objects_to_draw)
-
         for obj in objects_to_draw:
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
@@ -52,7 +48,11 @@ class Viewport(QtWidgets.QWidget, Observed):
 
         pen = QtGui.QPen(self.__currentColor, 3)
         qp.setPen(pen)
-        _buffer.draw(qp)
+        if isinstance(_buffer, list):
+            for obj in _buffer:
+                obj.draw(qp)
+        else:
+            _buffer.draw(qp)
 
     @property
     def clicked_x(self):

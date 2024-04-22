@@ -10,8 +10,6 @@ from src.Model.Point import Point
 from src.Model.Line import Line
 from src.Model.Utils.saveFile import saveFile
 from src.Model.Drawable import Drawable
-from src.Model.Clipper import Clipper
-from src.Model.Clipper import Strategy
 from src.Model.Clipping.LineClipper import liangBarsky
 from src.Model.Clipping.LineClipper import cohenSutherland
 
@@ -101,7 +99,7 @@ class Controller(Observer):
         if algorithm == "CohenSutherland":
             self.display_file.selected_clipping_algorithm = cohenSutherland
             return
-        self.display_file.selected_clipping_algorithm = liangBarsky 
+        self.display_file.selected_clipping_algorithm = liangBarsky
 
     def draw_borders(self):
         line1 = Line(Point(self.window.xw_min, self.window.yw_min, self.window, color=QtCore.Qt.red), Point(self.window.xw_max, self.window.yw_min, self.window, color=QtCore.Qt.red), "border1", self.window, color=QtCore.Qt.red)
@@ -179,6 +177,15 @@ class Controller(Observer):
                 self.object_color,
                 self.is_filled
             )
+
+        elif self.selected_object == "Bezier":
+            print("Color:" ,self.object_color)
+            self.display_file.addToBuffer(
+                "BEZIER",
+                point,
+                self.window,
+                self.object_color
+            )
         self.__view_port.update()
 
     def navigate(self, direction: str):
@@ -196,7 +203,7 @@ class Controller(Observer):
             self.__display_file.confirmLastObject()
 
         dict = self.__display_file.tryRegistering(
-            self.selected_object, self.object_name
+            self.selected_object, self.object_name, self.object_color
         )
 
         self.view_port.update()
@@ -334,7 +341,7 @@ class Controller(Observer):
             self._rotateObject(point, x, y, amount)
 
         for line in self.__display_file.lines:
-            if (line.name != None):
+            if line.name is not None:
                 self._rotateObject(line, x, y, amount)
 
         for wireframe in self.__display_file.wireframes:
