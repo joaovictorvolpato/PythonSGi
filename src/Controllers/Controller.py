@@ -289,7 +289,7 @@ class Controller(Observer):
             self.rotateWindow(float(self.window.rotation_amount))
         elif direction == "RIGHT":
             self.rotateWindow(-float(self.window.rotation_amount))
-        self.updateBordersUponWindowChange(self.__window)
+        #self.updateBordersUponWindowChange(self.__window)
         self.__view_port.update()
 
     def setWindowDimensions(self, min, max):
@@ -346,6 +346,9 @@ class Controller(Observer):
 
         for wireframe in self.__display_file.wireframes:
             self._rotateObject(wireframe, x, y, amount)
+
+        for curve in self.__display_file.curves:
+            self._rotateObject(curve, x, y, amount)
 
     def normalizeObject(self, object):
         x = object.x

@@ -57,7 +57,7 @@ class Bezier(Drawable):
 
                 x1, y1 = self.normalize(x1, y1)
                 x2, y2 = self.normalize(x2, y2)
-                x1, y1, x2, y2 = curveClip(x1, y1, x2, y2)
+                x1, y1, x2, y2 = curveClip(x1, y1, x2, y2, self.__window)
 
                 self._drawLines(x1, y1, x2, y2, painter)
 
