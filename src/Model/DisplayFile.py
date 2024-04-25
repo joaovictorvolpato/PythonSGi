@@ -4,6 +4,7 @@ from src.Model.Line import Line
 from src.Model.Bezier import Bezier
 from src.Model.Drawable import Drawable
 from src.Model.WireFrame import Wireframe
+from src.Model.BSpline import BSpline
 
 from src.Model.Patterns.singleton import SingletonClass
 
@@ -74,6 +75,12 @@ class DisplayFile(SingletonClass):
             else:
                 self.__buffer = [buffer]
 
+        if objectType == "BSPLINE":
+            if self.__buffer is not None:
+                self.__buffer.addControlPoint(buffer)
+            else:
+                self.__buffer = BSpline(buffer, window=windowP, color = object_color)
+
     def registerObject(self, currentType: str, objectName: str, object_color) -> None:
         if isinstance(self.__buffer, list):
             self.__curves.append(
@@ -86,9 +93,14 @@ class DisplayFile(SingletonClass):
             )
             self.__buffer = None
 
-        if isinstance(self.__buffer,Point):
+        elif isinstance(self.__buffer, BSpline):
+            self.__curves.append(self.__buffer)
+            self.__buffer = None
+
+        elif isinstance(self.__buffer,Point):
             self.__points.append(self.__buffer)
             self.__buffer = None
+
         elif isinstance(self.__buffer,Line):
             print("Registering line: ", self.__buffer.start, self.__buffer.end)
             self.__lines.append(self.__buffer)

@@ -144,14 +144,14 @@ class Controller(Observer):
 
         point = Point(x, y, self.window, self.object_color)
 
-        print("WINDOW OBJECT MEMORY ADDRESS IN CONTROLLER")
-        print(self.window)
+        #print("WINDOW OBJECT MEMORY ADDRESS IN CONTROLLER")
+        #print(self.window)
 
-        print("Point: ", point.x, point.y)
+        #print("Point: ", point.x, point.y)
 
-        print("Selected object: ", self.selected_object)
+        #print("Selected object: ", self.selected_object)
 
-        print("called getObjects in controller  ", self.display_file.getObjects())
+        #print("called getObjects in controller  ", self.display_file.getObjects())
 
         if self.selected_object == "Point":
             self.display_file.addToBuffer(
@@ -179,13 +179,22 @@ class Controller(Observer):
             )
 
         elif self.selected_object == "Bezier":
-            print("Color:" ,self.object_color)
+            #print("Color:" ,self.object_color)
             self.display_file.addToBuffer(
                 "BEZIER",
                 point,
                 self.window,
                 self.object_color
             )
+
+        elif self.selected_object == "BSpline":
+            self.display_file.addToBuffer(
+                "BSPLINE",
+                point,
+                self.window,
+                self.object_color
+            )
+            
         self.__view_port.update()
 
     def navigate(self, direction: str):
