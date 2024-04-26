@@ -76,13 +76,13 @@ class BSpline(Drawable):
                 [6 * delta3, 0, 0, 0],
             ]
         )
-    
+
     def getGBSpline(p0: Point, p1: Point, p2: Point, p3: Point) -> BSplineGeoMatrix:
         gb_spline_x = [[p0.x], [p1.x], [p2.x], [p3.x]]
         gb_spline_y = [[p0.y], [p1.y], [p2.y], [p3.y]]
 
         return BSplineGeoMatrix(gb_spline_x, gb_spline_y)
-    
+
     def getInitialCurve(self, delta_matrix: np.array, gb: BSplineGeoMatrix) -> tuple:
         cx = np.dot(self.BSPLINE_MATRIX, gb.x)
         cx = np.dot(delta_matrix, cx)
@@ -91,7 +91,7 @@ class BSpline(Drawable):
         cy = np.dot(delta_matrix, cy)
 
         return cx, cy
-    
+
     def forward_difference(self, n: int, dx: np.array, dy: np.array, window) -> None:
         x = dx[0][0]
         y = dy[0][0]
@@ -109,12 +109,12 @@ class BSpline(Drawable):
             y2 = y + dy[2][0]
 
             x2, y2 = self._normalize(x, y, window)
-            
+
             x_old = x
             y_old = y
 
             return curveClip(x, y, x2, y2, window)
-        
+
 
 
     def _normalize(x, y, window):
@@ -122,21 +122,21 @@ class BSpline(Drawable):
         normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
         normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
         return (normal_x, normal_y)
-    
+
 
     def _drawLines(x1, y1, x2, y2, painter, window):
         if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
             x1, y1 = viewportTransformation(x1, y1, window)
             x2, y2 = viewportTransformation(x2, y2, window)
-            painter.drawLine(x1, y1, x2, y2)    
+            painter.drawLine(x1, y1, x2, y2)
 
-    def applyTransformations(self, matrix: list) -> None:
+    def transform(self, matrix: list) -> None:
         for point in self.__control_points:
             mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
             point.setX(mult.item(0))
             point.setY(mult.item(1))
 
-    def calculateGeometricCenter(self) -> list:
+    def getCenter(self) -> list:
         sum_x = 0
         sum_y = 0
         for point in self.__control_points:
@@ -145,4 +145,5 @@ class BSpline(Drawable):
 
         return [sum_x / len(self.__control_points), sum_y / len(self.__control_points)]
 
-
+    def transformToView(self):
+        pass
