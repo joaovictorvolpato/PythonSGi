@@ -18,7 +18,7 @@ class BSplineGeoMatrix:
 class BSpline(Drawable):
 
     def __init__(
-        self, name: str, first_control_point: Point, color: QColor = None, window=None
+        self, first_control_point: Point, name: str = None, color: QColor = None, window=None
     ):
         super().__init__(name)
 
@@ -49,6 +49,8 @@ class BSpline(Drawable):
         n = 1 / delta
         delta_matrix = self.calculateDeltaMatrix(delta)
 
+        print("printing delta matrix", delta_matrix)
+
         for i in range(len(self.__control_points) - 3):
             gb_spline = self.getGBSpline(
                 self.__control_points[i],
@@ -59,10 +61,15 @@ class BSpline(Drawable):
 
             dx, dy = self.getInitialCurve(delta_matrix, gb_spline)
 
+            print("initial curve:", dx, dy)
+
             for point in self.__control_points:
                 point.draw(painter)
 
-            self._drawLines(self.forward_difference(n, dx, dy, painter, self.__window),painter)
+            print("Called Forward Differences")
+        
+            self.forward_difference( int(n), dx, dy, self.__window, painter=painter)
+
 
     def calculateDeltaMatrix(self, delta: float) -> np.array:
         delta2 = delta**2
@@ -77,7 +84,7 @@ class BSpline(Drawable):
             ]
         )
 
-    def getGBSpline(p0: Point, p1: Point, p2: Point, p3: Point) -> BSplineGeoMatrix:
+    def getGBSpline(self, p0: Point, p1: Point, p2: Point, p3: Point) -> BSplineGeoMatrix:
         gb_spline_x = [[p0.x], [p1.x], [p2.x], [p3.x]]
         gb_spline_y = [[p0.y], [p1.y], [p2.y], [p3.y]]
 
@@ -92,49 +99,67 @@ class BSpline(Drawable):
 
         return cx, cy
 
-    def forward_difference(self, n: int, dx: np.array, dy: np.array, window) -> None:
-        x = dx[0][0]
-        y = dy[0][0]
+    def forward_difference(self, n: int, dx: np.array, dy: np.array, window, painter) -> None:
+        x, dx, d2x, d3x = [x[0] for x in dx]
+        y, dy, d2y, d3y = [y[0] for y in dy]
+
+        #print("Inside Forwarad Differences dx", x,dx,d2x,d3x)
+        #print("Inside Forwarad Differences dy", y,dy,d2y,d3y)
+
+        i = 1
 
         x_old = x
         y_old = y
 
-        for i in range(1, n):
-            x += dx[1][0]
-            y += dy[1][0]
+        while i < n:
+            i += 1
 
-            x, y = self._normalize(x_old, y_old, window)
+            x += dx
+            dx += d2x
+            d2x += d3x
 
-            x2 = x + dx[2][0]
-            y2 = y + dy[2][0]
+            y += dy
+            dy += d2y
+            d2y += d3y
 
+
+            x1, y1 = self._normalize(x_old, y_old, window)
             x2, y2 = self._normalize(x, y, window)
+
+            #print("NORMALIZED POINTS:", x1, y1, x2, y2)
+
+            x1, y1, x2, y2 = curveClip(x1, y1, x2, y2, window)
+
+            #print("POINTS AFTER CURVE CLIPE", x1, y1, x2, y2)
+
+            #print("called _drawlines")
+            self._drawLines(x1, y1, x2, y2, painter, window=self.__window)
+
+            i += 1
 
             x_old = x
             y_old = y
 
-            return curveClip(x, y, x2, y2, window)
 
-
-
-    def _normalize(x, y, window):
+    def _normalize(self, x, y, window):
         yw_min, yw_max, xw_min, xw_max = window.getMinsAndMaxes()
         normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
         normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
         return (normal_x, normal_y)
 
 
-    def _drawLines(x1, y1, x2, y2, painter, window):
+    def _drawLines(self, x1, y1, x2, y2, painter, window):
         if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
             x1, y1 = viewportTransformation(x1, y1, window)
             x2, y2 = viewportTransformation(x2, y2, window)
+            print("called _drawlines")
             painter.drawLine(x1, y1, x2, y2)
 
     def transform(self, matrix: list) -> None:
         for point in self.__control_points:
-            mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
-            point.setX(mult.item(0))
-            point.setY(mult.item(1))
+            mult = np.matmul(np.array([point.x_normalized, point.y_normalized, 1]), matrix)
+            point.x = mult.item(0)
+            point.y = mult.item(1)
 
     def getCenter(self) -> list:
         sum_x = 0

@@ -39,7 +39,7 @@ class Viewport(QtWidgets.QWidget, Observed):
                 qp.setPen(pen)
                 brush = QtGui.QBrush(color)
                 qp.setBrush(brush)
-            print("Drawing object")
+            print("Drawing object", obj.name)
             obj.draw(qp)
 
         _buffer = self.displayFile.get_buffer()

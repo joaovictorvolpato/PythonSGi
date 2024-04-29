@@ -79,7 +79,7 @@ class DisplayFile(SingletonClass):
             if self.__buffer is not None:
                 self.__buffer.addControlPoint(buffer)
             else:
-                self.__buffer = BSpline(buffer, window=windowP, color = object_color)
+                self.__buffer = BSpline(first_control_point=buffer, window=windowP, color = object_color)
 
     def registerObject(self, currentType: str, objectName: str, object_color) -> None:
         if isinstance(self.__buffer, list):
