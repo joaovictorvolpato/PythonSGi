@@ -45,13 +45,18 @@ class BSpline(Drawable):
         self.__control_points.append(point)
 
     def draw(self, painter: QPainter) -> None:
-        delta = 0.01
+        delta = 0.001
         n = 1 / delta
         delta_matrix = self.calculateDeltaMatrix(delta)
 
         print("printing delta matrix", delta_matrix)
 
+        #print(len(self.__control_points))
+
         for i in range(len(self.__control_points) - 3):
+            #print("getting points", i, i + 1, i + 2, i + 3)
+            #print(self.__control_points[i], self.__control_points[i + 1], self.__control_points[i + 2], self.__control_points[i + 3])
+
             gb_spline = self.getGBSpline(
                 self.__control_points[i],
                 self.__control_points[i + 1],
@@ -61,14 +66,14 @@ class BSpline(Drawable):
 
             dx, dy = self.getInitialCurve(delta_matrix, gb_spline)
 
-            print("initial curve:", dx, dy)
+            #print("initial curve:", dx, dy)
 
             for point in self.__control_points:
                 point.draw(painter)
 
-            print("Called Forward Differences")
+            #print("Called Forward Differences")
         
-            self.forward_difference( int(n), dx, dy, self.__window, painter=painter)
+            self.forward_difference(n, dx, dy, self.__window, painter=painter)
 
 
     def calculateDeltaMatrix(self, delta: float) -> np.array:
@@ -133,9 +138,7 @@ class BSpline(Drawable):
             #print("POINTS AFTER CURVE CLIPE", x1, y1, x2, y2)
 
             #print("called _drawlines")
-            self._drawLines(x1, y1, x2, y2, painter, window=self.__window)
-
-            i += 1
+            self._drawLines(x1, y1, x2, y2, painter, window)
 
             x_old = x
             y_old = y
@@ -152,7 +155,7 @@ class BSpline(Drawable):
         if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
             x1, y1 = viewportTransformation(x1, y1, window)
             x2, y2 = viewportTransformation(x2, y2, window)
-            print("called _drawlines")
+            #print("called _drawlines")
             painter.drawLine(x1, y1, x2, y2)
 
     def transform(self, matrix: list) -> None:
