@@ -50,7 +50,8 @@ class View(QMainWindow, Ui_Dialog):
             0: "Point",
             1: "Line",
             2: "Wireframe",
-            3: "Bezier"
+            3: "Bezier",
+            4: "BSpline",
         }
 
         self.__controller.selected_object = switcher[index]
