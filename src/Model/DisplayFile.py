@@ -1,10 +1,13 @@
 from src.Model.Window import Window
 from src.Model.Point import Point
-from src.Model.Line import Line
+from src.Model.Point3D import Point3D
+from src.Model.Line import Line, Line3D
 from src.Model.Bezier import Bezier
 from src.Model.Drawable import Drawable
-from src.Model.WireFrame import Wireframe
+from src.Model.WireFrame import Wireframe, WireFrame3D
 from src.Model.BSpline import BSpline
+
+
 
 from src.Model.Patterns.singleton import SingletonClass
 
@@ -21,6 +24,7 @@ class DisplayFile(SingletonClass):
         self.__lines = []
         self.__wireframes = []
         self.__curves = []
+        self.__objects3D = []
         self.__buffer = None
         self.__confirmed_last_one = True
         self.__selected_clipping_algorithm = None
@@ -108,6 +112,21 @@ class DisplayFile(SingletonClass):
         elif isinstance(self.__buffer,Wireframe):
             self.__wireframes.append(self.__buffer)
             self.__buffer = None
+
+    def create3DObject(self, points: list[tuple], edges: list[tuple], obj_name: str, objectsList):
+        lines = []
+        for point in points:
+            #print(point[0], point[1], point[2])
+            point3d = Point3D(point[0], point[1], point[2], window=self.__window)
+            self.__points.append(point3d)
+        for edge in edges:
+            line = Line3D(self.__points[edge[0]], window=self.__window)
+            line.start = self.__points[edge[0]]
+            line.end = self.__points[edge[1]]
+            lines.append(line)
+            #print("line drawn between", self.__points[edge[0]], self.__points[edge[1]])
+        wire3d = WireFrame3D(lines, name=obj_name)
+        self.__objects3D.append(wire3d)
 
     def registerBoarder(self, line1, line2, line3, line4) -> None:
         self.__lines.append(line1)

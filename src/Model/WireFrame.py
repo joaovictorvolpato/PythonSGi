@@ -4,7 +4,7 @@ from PyQt5.QtCore import QPoint
 from PyQt5 import QtCore
 
 from src.Model.Drawable import Drawable
-from src.Model.Line import Line
+from src.Model.Line import Line, Line3D
 from src.Model.Point import Point
 from src.Model.Utils.ViewPortTransform import viewportTransformation
 
@@ -100,3 +100,16 @@ class Wireframe(Drawable):
         for point in self.__pointsList:
             point.transform(matrix)
 
+class WireFrame3D(Wireframe):
+    def __init__(self, lines: list[Line3D], name: str = None, window=None):
+        super().__init__(name)
+        self.__lines = lines
+        self.__window = window
+    
+    def draw(self, painter: QtGui.QPainter):
+        for line in self.__lines:
+            line.draw(painter)
+
+    def transform(self, matrix: np.ndarray):
+        for line in self.__lines:
+            line.applyTransformations(matrix)
