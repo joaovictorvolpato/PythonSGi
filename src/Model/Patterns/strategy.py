@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.Model.DisplayFile import DisplayFile
+#from src.Model.DisplayFile import DisplayFile
 from src.Model.Drawable import Drawable
 from src.Model.Window import Window
 import numpy as np
@@ -16,7 +16,7 @@ class Strategy(ABC):
     """
 
     @abstractmethod
-    def clipping_algorithm(self, display_file:DisplayFile) -> List[Drawable]:
+    def clipping_algorithm(self, display_file) -> List[Drawable]:
         pass
 
 class ProjectionStrategy(ABC):

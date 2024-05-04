@@ -12,3 +12,6 @@ class Projector():
         '''The constructor of the class, it will receive a strategy that will be used to project the objects'''
 
         self._strategy = strategy
+
+    def build_projection_matrix(self, window) -> List[List[float]]:
+        pass

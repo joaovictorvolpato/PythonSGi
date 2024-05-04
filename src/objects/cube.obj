@@ -1,0 +1,31 @@
+v 10 10 10
+v 110 10 10
+v 10 110 10
+v 110 110 10
+v 10 10 110
+v 110 10 110
+v 10 110 110
+v 110 110 110
+v 0 0 0
+v 760 490 0
+mtllib cube.mtl
+o window
+w 9 10
+o q1
+usemtl cor0
+l 1 2 3 4
+o q2
+usemtl cor0
+l 5 6 7 8
+o l1
+usemtl cor0
+l 1 5
+o l2
+usemtl cor0
+l 2 6
+o l3
+usemtl cor0
+l 3 7
+o l4
+usemtl cor0
+l 4 8

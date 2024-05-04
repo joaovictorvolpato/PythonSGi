@@ -178,7 +178,7 @@ class DisplayFile(SingletonClass):
 
     def tryRegistering(self, currentType: str, objectName: str, object_color) -> str:
         if self.__buffer is None:
-            return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
+            return {"status": False, "mensagem": "[ERROR] Draw an object first."}
 
         self.setObjectName(objectName, object_color)
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
@@ -200,13 +200,17 @@ class DisplayFile(SingletonClass):
             if curve.name == name:
                 return curve
 
-    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe]):
+    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe, Point3D, Line3D]):
         if isinstance(obj, Point):
             self.__points.append(obj)
         elif isinstance(obj, Line):
             self.__lines.append(obj)
         elif isinstance(obj, Wireframe):
             self.__wireframes.append(obj)
+        elif isinstance(obj, Point3D):
+            self.__objects3D.append(obj)
+        elif isinstance(obj, Line3D):
+            self.__objects3D.append(obj)
 
     def normalizeObject(self, object):
         x = object.x
