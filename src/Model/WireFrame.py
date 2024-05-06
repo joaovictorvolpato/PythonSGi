@@ -6,6 +6,7 @@ from PyQt5 import QtCore
 from src.Model.Drawable import Drawable
 from src.Model.Line import Line, Line3D
 from src.Model.Point import Point
+from src.Model.Point3D import Point3D
 from src.Model.Utils.ViewPortTransform import viewportTransformation
 
 
@@ -101,15 +102,26 @@ class Wireframe(Drawable):
             point.transform(matrix)
 
 class WireFrame3D(Wireframe):
-    def __init__(self, lines: list[Line3D], name: str = None, window=None):
+    def __init__(self, vertices: list[Point3D], faces, name: str = None, window=None):
         super().__init__(name)
-        self.__lines = lines
+        self.__vertices = vertices
+        self.__faces = faces
         self.__window = window
+        self.transform()
     
     def draw(self, painter: QtGui.QPainter):
-        for line in self.__lines:
+        for line in self.__vertices:
             line.draw(painter)
 
+    def getCenter(self):
+        x_sum, y_sum, z_sum = 0
+        for point in self.__vertices:
+            x_sum += point.x
+            y_sum += point.y
+            z_sum += point.z
+        
+        return [x_sum / len(self.__vertices), y_sum / len(self.__vertices), z_sum/len(self.__vertices)]
+
     def transform(self, matrix: np.ndarray):
-        for line in self.__lines:
+        for line in self.__vertices:
             line.applyTransformations(matrix)

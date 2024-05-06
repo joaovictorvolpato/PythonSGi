@@ -3,7 +3,7 @@ from PyQt5.QtGui import QColor
 
 from src.Model.Point import Point
 from src.Model.Line import Line
-from src.Model.WireFrame import Wireframe
+from src.Model.WireFrame import Wireframe, WireFrame3D
 
 from typing import Tuple
 from typing import List
@@ -22,9 +22,28 @@ def readFile(name: str, window_controller) -> Tuple[list, list]:
         content = _clearContent(content)
 
         vertices, materials, objects, window = _processContent(content)
+        name3d, vertices3d, faces3d = parseOBJ(content)
 
-    objects = _createObjects(vertices, materials, objects, window_controller)
+    objects = _createObjects(vertices, materials, objects, window_controller, vertices3d, faces3d, name3d)
+
     return objects, window
+
+def parseOBJ(self, lines):
+    name = ""
+    vertices = []
+    faces = []
+    for line in lines:
+        if line[0] == "g":
+            name = line.split()[1]
+        elif(line[0] in ["v", "vt", "vn", "vp"]):
+            _,x,y,z = line.split()
+            vertices.append((float(x),float(y),float(z),1))
+        elif(line[0] == "f"):
+            faces.append([int(x) for x in line.split()[1::]])
+        elif(line[0] == "a"):
+            break
+
+    return name, vertices, faces
 
 def _clearContent(content: List[str]) -> List[str]:
     new_content = []
@@ -94,7 +113,7 @@ def _convertToHEX(values: List[str]):
     r, g, b = [int(float(val) * 255) for val in values]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
-def _createObjects(vertices, materials, objects, window):
+def _createObjects(vertices, materials, objects, window, vertices3d, faces3d, name3d):
     objects_list = []
 
     for objName, data in objects.items():
@@ -126,5 +145,9 @@ def _createObjects(vertices, materials, objects, window):
                 wireframe.addPoint(Point(float(point[0]), float(point[1]), window))
             wireframe.color = color
             objects_list.append(wireframe)
+
+        if (vertices3d is not None) and (faces3d is not None):
+            wireframe3D = WireFrame3D(vertices=vertices3d, faces=faces3d, name=name3d, window=window)
+            objects_list.append(wireframe3D)
 
     return objects_list

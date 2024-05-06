@@ -200,16 +200,18 @@ class DisplayFile(SingletonClass):
             if curve.name == name:
                 return curve
 
-    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe, Point3D, Line3D]):
+    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe,Point3D, Line3D]):
         if isinstance(obj, Point):
             self.__points.append(obj)
         elif isinstance(obj, Line):
             self.__lines.append(obj)
         elif isinstance(obj, Wireframe):
             self.__wireframes.append(obj)
-        elif isinstance(obj, Point3D):
-            self.__objects3D.append(obj)
-        elif isinstance(obj, Line3D):
+        #elif isinstance(obj, Point3D):
+        #    self.__objects3D.append(obj)
+        #elif isinstance(obj, Line3D):
+        #    self.__objects3D.append(obj)
+        elif isinstance(obj, WireFrame3D):
             self.__objects3D.append(obj)
 
     def normalizeObject(self, object):

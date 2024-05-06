@@ -79,6 +79,9 @@ class Window(Singleton):
 
     def getCenter(self):
         return ((self.xw_max + self.xw_min)/2, (self.yw_max + self.yw_min)/2)
+    
+    def getCenter3D(self):
+        return ((self.xw_max + self.xw_min)/2, (self.yw_max + self.yw_min)/2, 0 , 1)
 
     def getMinsAndMaxes(self):
         return [self.yw_min, self.yw_max, self.xw_min, self.xw_max]
