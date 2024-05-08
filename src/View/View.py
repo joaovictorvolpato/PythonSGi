@@ -110,9 +110,13 @@ class View(QMainWindow, Ui_Dialog):
         self.window.show()
 
     def getObjectsFromFile(self, objectsList: list):
+        print("OBJECT LIST INSIDE GETOBJFROMFILE", objectsList)
         for obj in objectsList:
+            print("OBJECT BEFORE SETTING WINDOW", obj)
             obj.window = self.__controller.window
+            print("OBJECT AFTER SETTING WINDOW", obj)
             self.listWidget.addItem(obj.name)
+            print("OBJECTNAME", obj)
             self.__controller.display_file.addObjectFromFile(obj)
             self.update()
 

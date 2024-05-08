@@ -65,14 +65,15 @@ class MatrixOperations3D(MatrixOperations):
         self.__scaling_matrix = None
         self.__rotation_matrix = None
 
-    def build_translation_matrix(self, tx: float, ty: float, tz: float) -> np.ndarray:
-        self.__translation_matrix = np.array([
+    @staticmethod
+    def build_translation_matrix(tx: float, ty: float, tz: float) -> np.ndarray:
+        translation_matrix = np.array([
             [1, 0, 0, 0],
             [0, 1, 0, 0],
             [0, 0, 1, 0],
             [float(tx), float(ty), float(tz), 1]
         ])
-        return self.__translation_matrix
+        return translation_matrix
 
     def build_scaling_matrix(self, sx: float, sy: float, sz: float) -> np.ndarray:
         self.__scaling_matrix = np.array([

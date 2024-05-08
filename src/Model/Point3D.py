@@ -41,6 +41,9 @@ class Point3D(Drawable):
     def z(self, z:int):
         self.__z = z
 
+    def getCoordinates(self):
+        return (self.__x, self.__y, self.__z)
+
     @property
     def x_normalized(self):
         return self.__x_normalized
@@ -96,3 +99,12 @@ class Point3D(Drawable):
         self.y = mult.item(1)
         self.z = mult.item(2)
         self.normalizePoint()
+
+    def getCenter(self):
+        pass
+
+    def transform(self, matrix: np.ndarray):
+        pass
+
+    def transformToView(self):
+        pass

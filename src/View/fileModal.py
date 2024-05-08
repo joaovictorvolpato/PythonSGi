@@ -62,6 +62,6 @@ class FileModal:
     def openFile(self, filename: str) -> None:
         objects, window = readFile(filename, self.__window)
 
-        self.setWindowDimensions(window[0], window[1])
+        print("IS THIS IT", objects)
         self.getObjectsFromFile(objects)
         self.MainWindow.close()

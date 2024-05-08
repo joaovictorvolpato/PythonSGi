@@ -86,4 +86,8 @@ class Clipper():
         for curve in display_file.curves:
             __inside_window.append(curve)
 
+        for object3D in display_file.objects3D:
+            print(object3D)
+            __inside_window.append(object3D)
+
         return __inside_window

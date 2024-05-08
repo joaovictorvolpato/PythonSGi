@@ -3,10 +3,13 @@ import numpy as np
 from PyQt5.QtCore import QPoint
 from PyQt5 import QtCore
 
+from typing import List
+
 from src.Model.Drawable import Drawable
 from src.Model.Line import Line, Line3D
 from src.Model.Point import Point
 from src.Model.Point3D import Point3D
+from src.Model.MatrixOperations import MatrixOperations3D
 from src.Model.Utils.ViewPortTransform import viewportTransformation
 
 
@@ -102,26 +105,48 @@ class Wireframe(Drawable):
             point.transform(matrix)
 
 class WireFrame3D(Wireframe):
-    def __init__(self, vertices: list[Point3D], faces, name: str = None, window=None):
+    def __init__(self, vertices: List[Point3D], faces, name: str = None, window=None):
         super().__init__(name)
         self.__vertices = vertices
+        self.__edges = []
         self.__faces = faces
         self.__window = window
-        self.transform()
+
+        for face in self.__faces:
+            self.buildEdges([self.__vertices[x-1] for x in face])
+
+            tuple(x - y for x, y in zip(self.__window.getCenter3D(), self.getCenter()))
+
+        t = tuple(x - y for x, y in zip(self.__window.getCenter3D(), self.getCenter()))
+        self.transform(MatrixOperations3D.build_translation_matrix(float(t[0]), float(t[1]), float(t[2])))
     
     def draw(self, painter: QtGui.QPainter):
-        for line in self.__vertices:
-            line.draw(painter)
+        print("Drawing wireframe")
+        for edge in self.__edges:
+            edge.draw(painter)
+    
+    def buildEdges(self, coordinates):
+        for point in range(len(coordinates)):
+            if (not point == (len(coordinates)-1)):
+                p1 = coordinates[point]
+                p2 = coordinates[point + 1]
+                line = Line3D(p1, p2, window=self.__window)
+                self.__edges.append(line)
+            else:
+                p1 = coordinates[-1]
+                p2 = coordinates[0]
+                line = Line3D(p1, p2, window=self.__window)
+                self.__edges.append(line)
 
     def getCenter(self):
-        x_sum, y_sum, z_sum = 0
+        x_sum, y_sum, z_sum = 0, 0, 0
         for point in self.__vertices:
             x_sum += point.x
             y_sum += point.y
             z_sum += point.z
         
-        return [x_sum / len(self.__vertices), y_sum / len(self.__vertices), z_sum/len(self.__vertices)]
+        return (x_sum / len(self.__vertices), y_sum / len(self.__vertices), z_sum/len(self.__vertices))
 
     def transform(self, matrix: np.ndarray):
-        for line in self.__vertices:
+        for line in self.__edges:
             line.applyTransformations(matrix)

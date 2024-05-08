@@ -44,6 +44,10 @@ class DisplayFile(SingletonClass):
     @property
     def curves(self) -> List[Bezier]:
         return self.__curves
+    
+    @property
+    def objects3D(self) -> List[WireFrame3D]:
+        return self.__objects3D
 
     @property
     def selected_clipping_algorithm(self):
@@ -113,7 +117,7 @@ class DisplayFile(SingletonClass):
             self.__wireframes.append(self.__buffer)
             self.__buffer = None
 
-    def create3DObject(self, points: list[tuple], edges: list[tuple], obj_name: str, objectsList):
+    def create3DObject(self, points: List[tuple], edges: List[tuple], obj_name: str, objectsList):
         lines = []
         for point in points:
             #print(point[0], point[1], point[2])
@@ -200,19 +204,24 @@ class DisplayFile(SingletonClass):
             if curve.name == name:
                 return curve
 
-    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe,Point3D, Line3D]):
+    def addObjectFromFile(self, obj: Union[Point,Line,Wireframe,Point3D,Line3D]):
+        print("OBJECT INSIDE ADD OBJECT FROM FILE", obj)
         if isinstance(obj, Point):
             self.__points.append(obj)
         elif isinstance(obj, Line):
             self.__lines.append(obj)
+        elif isinstance(obj, WireFrame3D):
+            print("Adding 3D object")
+            print(obj.name)
+            self.__objects3D.append(obj)
         elif isinstance(obj, Wireframe):
+            print("Adding object")
             self.__wireframes.append(obj)
         #elif isinstance(obj, Point3D):
         #    self.__objects3D.append(obj)
         #elif isinstance(obj, Line3D):
         #    self.__objects3D.append(obj)
-        elif isinstance(obj, WireFrame3D):
-            self.__objects3D.append(obj)
+        
 
     def normalizeObject(self, object):
         x = object.x

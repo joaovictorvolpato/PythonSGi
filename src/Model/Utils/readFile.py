@@ -2,8 +2,10 @@ import os
 from PyQt5.QtGui import QColor
 
 from src.Model.Point import Point
+from src.Model.Point3D import Point3D
 from src.Model.Line import Line
 from src.Model.WireFrame import Wireframe, WireFrame3D
+from src.Model.Window import Window
 
 from typing import Tuple
 from typing import List
@@ -16,19 +18,26 @@ def readFile(name: str, window_controller) -> Tuple[list, list]:
 
     objects = None
     window = None
+    vertices = None
+    materials = None
 
     with open(f"src/objects/{name}") as file:
         content = file.readlines()
-        content = _clearContent(content)
+        
+        if name.__contains__("3d"):
+            print("INSIDE 3D")
+            name3d, vertices3d, faces3d = parseOBJ(content)
+            objects = _createObjects(vertices, materials, objects, window_controller, vertices3d, faces3d, name3d)
+        else:
+            content = _clearContent(content)
+            vertices, materials, objects, window = _processContent(content)
+            objects = _createObjects(vertices, materials, objects, window_controller, vertices3d, faces3d, name3d)
 
-        vertices, materials, objects, window = _processContent(content)
-        name3d, vertices3d, faces3d = parseOBJ(content)
-
-    objects = _createObjects(vertices, materials, objects, window_controller, vertices3d, faces3d, name3d)
+    print(objects)
 
     return objects, window
 
-def parseOBJ(self, lines):
+def parseOBJ(lines):
     name = ""
     vertices = []
     faces = []
@@ -37,7 +46,7 @@ def parseOBJ(self, lines):
             name = line.split()[1]
         elif(line[0] in ["v", "vt", "vn", "vp"]):
             _,x,y,z = line.split()
-            vertices.append((float(x),float(y),float(z),1))
+            vertices.append(Point3D(float(x),float(y),float(z), window=Window(), name=name, color=None))
         elif(line[0] == "f"):
             faces.append([int(x) for x in line.split()[1::]])
         elif(line[0] == "a"):
@@ -115,6 +124,12 @@ def _convertToHEX(values: List[str]):
 
 def _createObjects(vertices, materials, objects, window, vertices3d, faces3d, name3d):
     objects_list = []
+
+    if objects is None:
+        wireframe3D = WireFrame3D(vertices=vertices3d, faces=faces3d, name=name3d, window=Window())
+        print(wireframe3D)
+        objects_list.append(wireframe3D)
+        return objects_list
 
     for objName, data in objects.items():
         points = data["points"]

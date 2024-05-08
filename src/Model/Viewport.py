@@ -28,6 +28,8 @@ class Viewport(QtWidgets.QWidget, Observed):
         #self.__clipper.line_clipper = self.displayFile.selected_clipping_algorithm
         objects_to_draw = self.__clipper.clip(self.displayFile)
 
+        print("OBJECTS TO DRAW", objects_to_draw[0])
+
         for obj in objects_to_draw:
             if obj is self.displayFile.get_buffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
@@ -39,7 +41,7 @@ class Viewport(QtWidgets.QWidget, Observed):
                 qp.setPen(pen)
                 brush = QtGui.QBrush(color)
                 qp.setBrush(brush)
-            print("Drawing object", obj.name)
+            print("Drawing object", obj)
             obj.draw(qp)
 
         _buffer = self.displayFile.get_buffer()
