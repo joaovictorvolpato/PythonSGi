@@ -104,7 +104,10 @@ class Point3D(Drawable):
         pass
 
     def transform(self, matrix: np.ndarray):
-        pass
+        mult = np.matmul(np.array([self.__x, self.__y, self.__z, 1]), matrix)
+        self.__x = mult.item(0)
+        self.__y = mult.item(1)
+        self.__z = mult.item(2)
 
     def transformToView(self):
         pass

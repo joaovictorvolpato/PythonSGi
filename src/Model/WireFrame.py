@@ -115,9 +115,8 @@ class WireFrame3D(Wireframe):
         for face in self.__faces:
             self.buildEdges([self.__vertices[x-1] for x in face])
 
-            tuple(x - y for x, y in zip(self.__window.getCenter3D(), self.getCenter()))
-
         t = tuple(x - y for x, y in zip(self.__window.getCenter3D(), self.getCenter()))
+        print(t)
         self.transform(MatrixOperations3D.build_translation_matrix(float(t[0]), float(t[1]), float(t[2])))
     
     def draw(self, painter: QtGui.QPainter):
@@ -148,5 +147,5 @@ class WireFrame3D(Wireframe):
         return (x_sum / len(self.__vertices), y_sum / len(self.__vertices), z_sum/len(self.__vertices))
 
     def transform(self, matrix: np.ndarray):
-        for line in self.__edges:
-            line.applyTransformations(matrix)
+        for point in self.__vertices:
+            point.transform(matrix)
