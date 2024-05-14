@@ -15,7 +15,7 @@ from src.Model.Utils.ViewPortTransform import viewportTransformation
 
 class Wireframe(Drawable):
     def __init__(
-        self, pointA: Point, name: str = None, window=None, color:QtCore.Qt.GlobalColor = None, is_filled: bool = False, points: list = []
+        self, pointA: Point = None, name: str = None, window=None, color:QtCore.Qt.GlobalColor = None, is_filled: bool = False, points: list = []
     ):
         super().__init__(name,color)
         self.__firstPoint = pointA
@@ -106,7 +106,7 @@ class Wireframe(Drawable):
 
 class WireFrame3D(Wireframe):
     def __init__(self, vertices: List[Point3D], faces, name: str = None, window=None):
-        super().__init__(name)
+        super().__init__(name = name)
         self.__vertices = vertices
         self.__edges = []
         self.__faces = faces
@@ -116,14 +116,13 @@ class WireFrame3D(Wireframe):
             self.buildEdges([self.__vertices[x-1] for x in face])
 
         t = tuple(x - y for x, y in zip(self.__window.getCenter3D(), self.getCenter()))
-        print(t)
         self.transform(MatrixOperations3D.build_translation_matrix(float(t[0]), float(t[1]), float(t[2])))
-    
+
     def draw(self, painter: QtGui.QPainter):
         print("Drawing wireframe")
         for edge in self.__edges:
             edge.draw(painter)
-    
+
     def buildEdges(self, coordinates):
         for point in range(len(coordinates)):
             if (not point == (len(coordinates)-1)):
@@ -143,7 +142,7 @@ class WireFrame3D(Wireframe):
             x_sum += point.x
             y_sum += point.y
             z_sum += point.z
-        
+
         return (x_sum / len(self.__vertices), y_sum / len(self.__vertices), z_sum/len(self.__vertices))
 
     def transform(self, matrix: np.ndarray):

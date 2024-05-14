@@ -194,7 +194,7 @@ class Controller(Observer):
                 self.window,
                 self.object_color
             )
-            
+
         self.__view_port.update()
 
     def navigate(self, direction: str):
@@ -224,7 +224,8 @@ class Controller(Observer):
         self.__view_port.update()
 
     def transformObject(self, name: str, transformation: dict):
-        print("Transforming object: ", name, transformation)
+        print("Nome do objeto: ", name)
+        print("Transformação: ", transformation)
         if transformation["type"] == "scaling":
             object_to_transform = self.__display_file.getObjectByName(name)
             center = object_to_transform.getCenter()

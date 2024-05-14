@@ -23,18 +23,20 @@ def readFile(name: str, window_controller) -> Tuple[list, list]:
 
     with open(f"src/objects/{name}") as file:
         content = file.readlines()
-        
+
         if name.__contains__("3d"):
             print("INSIDE 3D")
             name3d, vertices3d, faces3d = parseOBJ(content)
             objects = _createObjects(vertices, materials, objects, window_controller, vertices3d, faces3d, name3d)
         else:
+
             content = _clearContent(content)
             vertices, materials, objects, window = _processContent(content)
-            objects = _createObjects(vertices, materials, objects, window_controller, vertices3d, faces3d, name3d)
+            objects = _createObjects(vertices, materials, objects, window_controller)
 
-    print(objects)
-
+    print('objetos: ', objects)
+    for obj in objects:
+        print(obj.name)
     return objects, window
 
 def parseOBJ(lines):
@@ -122,12 +124,14 @@ def _convertToHEX(values: List[str]):
     r, g, b = [int(float(val) * 255) for val in values]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
-def _createObjects(vertices, materials, objects, window, vertices3d, faces3d, name3d):
+def _createObjects(vertices, materials, objects, window, vertices3d = None, faces3d = None, name3d = None):
     objects_list = []
 
     if objects is None:
-        wireframe3D = WireFrame3D(vertices=vertices3d, faces=faces3d, name=name3d, window=Window())
-        print(wireframe3D)
+        print('Entrou no if objects is None')
+        print('name: ', name3d)
+        wireframe3D = WireFrame3D(vertices=vertices3d, faces=faces3d, name=name3d, window=window)
+        print(wireframe3D.name)
         objects_list.append(wireframe3D)
         return objects_list
 

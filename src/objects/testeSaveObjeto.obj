@@ -1,9 +1,0 @@
-v 242 210 0
-v 0 0 0
-v 760 490 0
-mtllib testeSaveObjeto.mtl
-o window
-w 2 3
-o teste
-usemtl cor0
-p 1

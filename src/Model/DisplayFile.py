@@ -44,7 +44,7 @@ class DisplayFile(SingletonClass):
     @property
     def curves(self) -> List[Bezier]:
         return self.__curves
-    
+
     @property
     def objects3D(self) -> List[WireFrame3D]:
         return self.__objects3D
@@ -204,6 +204,10 @@ class DisplayFile(SingletonClass):
             if curve.name == name:
                 return curve
 
+        for obj3d in self.__objects3D:
+            if obj3d.name == name:
+                return obj3d
+
     def addObjectFromFile(self, obj: Union[Point,Line,Wireframe,Point3D,Line3D]):
         print("OBJECT INSIDE ADD OBJECT FROM FILE", obj)
         if isinstance(obj, Point):
@@ -212,7 +216,6 @@ class DisplayFile(SingletonClass):
             self.__lines.append(obj)
         elif isinstance(obj, WireFrame3D):
             print("Adding 3D object")
-            print(obj.name)
             self.__objects3D.append(obj)
         elif isinstance(obj, Wireframe):
             print("Adding object")
@@ -221,7 +224,7 @@ class DisplayFile(SingletonClass):
         #    self.__objects3D.append(obj)
         #elif isinstance(obj, Line3D):
         #    self.__objects3D.append(obj)
-        
+
 
     def normalizeObject(self, object):
         x = object.x
