@@ -76,10 +76,15 @@ class Window(Singleton):
         elif direction == "LEFT":
             self.xw_min -= self.step
             self.xw_max -= self.step
+        elif direction == "Z-UP":
+           pass
+
+        elif direction == "Z-DOWN":
+            pass
 
     def getCenter(self):
         return ((self.xw_max + self.xw_min)/2, (self.yw_max + self.yw_min)/2)
-    
+
     def getCenter3D(self):
         return ((self.xw_max + self.xw_min)/2, (self.yw_max + self.yw_min)/2, 0 , 1)
 

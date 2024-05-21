@@ -117,6 +117,13 @@ class Ui_Dialog(QDialog):
         self.selectClipping.setObjectName("selectClipping")
         self.selectClipping.addItem("")
         self.selectClipping.addItem("")
+        self.pushButton_7 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_7.setGeometry(QtCore.QRect(110, 340, 31, 31))
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_8 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_8.setGeometry(QtCore.QRect(50, 400, 31, 31))
+        self.pushButton_8.setObjectName("pushButton_8")
+
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -146,6 +153,8 @@ class Ui_Dialog(QDialog):
         self.fillObjectCheckbox.setText(_translate("Dialog", "Preencher objeto"))
         self.selectClipping.setItemText(0, _translate("Dialog", "Cohen Sutherland"))
         self.selectClipping.setItemText(1, _translate("Dialog", "Liang Barsky"))
+        self.pushButton_7.setText(_translate("Dialog", " ↗"))
+        self.pushButton_8.setText(_translate("Dialog", " ↙"))
 
 
     def attach_controllerUI(self, controller):

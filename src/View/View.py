@@ -28,6 +28,8 @@ class View(QMainWindow, Ui_Dialog):
         self.pushButton_4.clicked.connect(lambda: self.navigate('RIGHT'))
         self.pushButton_5.clicked.connect(lambda: self.navigate('DOWN'))
         self.pushButton_6.clicked.connect(lambda: self.navigate('LEFT'))
+        self.pushButton_7.clicked.connect(lambda: self.navigate('Z-UP'))
+        self.pushButton_8.clicked.connect(lambda: self.navigate('Z-DOWN'))
         self.comboBox.currentIndexChanged.connect(self.changeObjectType)
         self.pushButton.clicked.connect(lambda: self.zoom('IN'))
         self.pushButton_2.clicked.connect(lambda: self.zoom('OUT'))
